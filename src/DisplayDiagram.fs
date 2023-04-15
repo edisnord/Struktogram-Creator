@@ -34,7 +34,7 @@ let Diagram (blocks: Block list) =
                 | (Block.Caption _) -> true
                 | _ -> false)
                 blocks
-        with :? KeyNotFoundException ->
+        with Failure _ ->
             Block.Caption "Nassi–Shneiderman diagram"
     let children = (Seq.append [ Caption caption ] <| List.map astNodeToComponent blocks)
 

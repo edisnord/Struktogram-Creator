@@ -6,3 +6,8 @@
 #editorViewerContainer {
     display: flex;
 }
+
+body > * {
+    z-index: 2;
+    position: relative;
+}
