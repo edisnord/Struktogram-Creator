@@ -1,0 +1,8 @@
+STORAGE: NONE
+RESTRICTION: || (== net5.0) (== netstandard2.0) (== netstandard2.1)
+NUGET
+  remote: https://api.nuget.org/v3/index.json
+    FSharp.Core (7.0.200)
+GITHUB
+  remote: cannorin/Parsec.fs
+    Parsec.fs (d088e475905f5f5f10ef259254d6b2551a5b1a07)

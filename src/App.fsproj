@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\paket-files\cannorin\Parsec.fs\Parsec.fs">
+      <Paket>True</Paket>
+      <Link>paket-files/Parsec.fs</Link>
+    </Compile>
+    <None Include="index.html" />
+    <Compile Include="Parser.fs" />
+    <Compile Include="DisplayDiagram.fs" />
+    <Compile Include="Extensions.fs" />
+    <Compile Include="Components.fs" />
+    <Compile Include="Main.fs" />
+    <Content Include="style.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Feliz" Version="2.6.0" />
+    <PackageReference Include="Feliz.Router" Version="4.0.0" />
+    <PackageReference Include="FSharp.Core" Version="7.0.200" />
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>
