@@ -18,9 +18,9 @@ editor?setFontSize 20
 
 let public parseCode () =
     match Parser.parseSource (editor?getValue()) with
-                    | Ok(res, _, _) -> res.ToString()
+                    | Ok(res, _, _) -> res
                     | Error errorValue -> failwith <| errorValue.ToString()
 
 createButton.addEventListener("click",
-                              fun _ -> printfn $"{parseCode()}"    
+                              fun _ -> root.render <| DisplayDiagram.Diagram (parseCode ())    
                               )

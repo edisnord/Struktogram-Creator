@@ -7,11 +7,15 @@
     <link rel="shortcut icon" type="image/png" href="./img/favicon-32x32.png" sizes="32x32"/>
     <link rel="shortcut icon" type="image/png" href="./img/favicon-16x16.png" sizes="16x16"/>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="structoview.css" />
     <script type="module" src="./Parser.fs.js"></script>
 </head>
 <body>
-<div id="codeEditor"></div>
-<div id="feliz-app"></div>
+
+<div id="editorViewerContainer">
+    <div id="codeEditor"></div>
+    <div id="feliz-app" class="diagram"></div>
+</div>
 <script type="module" src="./Main.fs.js"></script>
 <button id="createButton">Create struktogram!</button>
 </body>

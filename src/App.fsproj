@@ -15,6 +15,7 @@
     <Compile Include="Components.fs" />
     <Compile Include="Main.fs" />
     <Content Include="style.css" />
+    <Content Include="structoview.css" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Feliz" Version="2.6.0" />
