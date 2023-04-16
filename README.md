@@ -8,6 +8,33 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
 * [node.js](https://nodejs.org) v18+ LTS
 * [paket](https://fsprojects.github.io/Paket/index.html)
 
+## Objectives
+
+1. [ ] Implement parser
+   1. [X] If
+   2. [X] Loop
+   3. [X] For
+   4. [X] Concurrent
+   5. [X] Break, Exit, Return
+   6. [X] Call
+   7. [ ] Comment(and multiline)
+   8. [X] Sequence
+   9. [ ] Multiline sequence
+2. [X] Connect parser to diagram generator
+3. [ ] Implement diagram generator blocks
+   1. [X] Caption block
+   2. [X] Return block
+   3. [X] Exit block
+   4. [X] Call block
+   5. [X] Break block
+   6. [ ] If block
+      1. [ ] Proper rendering of else-ifs
+   7. [ ] For block
+   8. [ ] Loop block
+   9. [ ] Concurrent block
+   10. [ ] Comment block
+4. [ ] Add syntax highlighting for Ace
+5. [ ] Add theming for diagram and page colors
 
 ## Development
 
@@ -17,7 +44,7 @@ Then to start development mode with hot module reloading, run:
 ```bash
 npm start
 ```
-This will start the development server after compiling the project, once it is finished, navigate to http://localhost:8080 to view the application .
+This will start the development server after compiling the project, once it is finished, navigate to http://localhost:5137 to view the application .
 
 To build the application and make ready for production:
 ```

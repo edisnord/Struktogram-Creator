@@ -22,7 +22,7 @@ and Block =
     | Return of string
     | Exit of string
     | Sequence of Sequence
-
+    
 and Else = Blocks of Block list
 
 and If =
@@ -188,3 +188,8 @@ pBlockRef.Value <-
 
 let public parseSource src =
     run (manyTill (pBlock .>> spaces) eof) () (StringSegment.ofString src)
+
+let public isEmptySequence =
+    function
+        | Block.Sequence(Text s) -> s.Equals "" 
+        | _ -> false

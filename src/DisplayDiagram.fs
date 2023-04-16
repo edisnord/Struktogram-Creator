@@ -13,15 +13,22 @@ let Sequence (text: string) =
     Html.p[prop.className "struct-sequence"
            prop.innerHtml text]
 
-let Return (text: string) =
+let Return (text: string, exit: bool) =
     Html.p[prop.className "struct-break"
-           prop.innerHtml <| $"exit {text}"]
+           prop.innerHtml <| (if exit then "exit " else "") + $"{text}"]
+
+let Call (text: string) =
+    Html.p[prop.className "struct-call"
+           prop.innerHtml text]
 
 let astNodeToComponent =
     function
-    | Block.Return s -> (Return s)
+    | Block.Return s | Block.Exit s -> Return(s, true)
+    | Block.Break s -> Return(s, false)
     | Block.Sequence(Text s) -> (Sequence s)
-    | block -> (React.functionComponent (fun () -> Html.div []) ())
+    | Block.Call s -> Call s
+    | _ -> (React.functionComponent (fun () -> Html.none) ())
+
 
 
 
@@ -36,9 +43,7 @@ let Diagram (blocks: Block list) =
                 blocks
         with Failure _ ->
             Block.Caption "Nassi–Shneiderman diagram"
-    let children = (Seq.append [ Caption caption ] <| List.map astNodeToComponent blocks)
 
-    Html.div
-        [ prop.classes [ "struct-diagram" ]
-          prop.children children ]
-        
+    let children = Caption caption :: List.map astNodeToComponent blocks
+
+    Html.div [ prop.classes [ "struct-diagram" ]; prop.children children ]

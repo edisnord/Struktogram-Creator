@@ -87,9 +87,11 @@ limitations under the License.
     line-height: 1.5em;
     border-right: 0;
     padding-left: .25em;
+    margin-top: 0;
+    margin-bottom: 5px;
 }
 
-.struct-sequence, struct-block, struct-loop, struct-iteration, struct-repeat, struct-call, .struct-break, struct-comment {
+.struct-sequence, struct-block, struct-loop, struct-iteration, struct-repeat, .struct-call, .struct-break, struct-comment {
     display: block;
     margin-top: 0;
     margin-bottom: 0;
@@ -102,7 +104,7 @@ struct-concurrent > *, struct-decision > struct-block, struct-select > struct-ca
     vertical-align: top;
 }
 
-struct-repeat, struct-concurrent, .struct-sequence, struct-decision, struct-select, struct-loop, struct-iteration, struct-call, .struct-break, struct-comment {
+struct-repeat, struct-concurrent, .struct-sequence, struct-decision, struct-select, struct-loop, struct-iteration, .struct-call, .struct-break, struct-comment {
     padding: .25em;
     background-color: var(--structoview-bg);
     border-top: 1px solid var(--structoview-line);
@@ -217,7 +219,7 @@ struct-comment {
     border-right: 1px solid var(--structoview-line);
 }
 
-.struct-diagram > *:last-child {
+.struct-diagram > *:last-child:not(.struct-caption):not(.nothingness) {
     border-bottom: 1px solid var(--structoview-line);
 }
 
@@ -391,14 +393,14 @@ struct-concurrent > * {
     right: unset;
 }
 
-struct-call {
+.struct-call {
     padding-left: 1em;
     padding-right: 1em;
     position: relative;
     min-height: 2em;
 }
 
-struct-call:after, struct-call:before {
+.struct-call:after, .struct-call:before {
     display: block;
     width: .5em;
     height: 100%;
@@ -407,12 +409,12 @@ struct-call:after, struct-call:before {
     top: 0px;
 }
 
-struct-call:after {
+.struct-call:after {
     right: 0em;
     border-left: 1px solid var(--structoview-line);
 }
 
-struct-call:before {
+.struct-call:before {
     left: 0em;
     border-right: 1px solid var(--structoview-line);
 }
@@ -425,5 +427,5 @@ struct-call:before {
     vertical-align: top;
     margin: 2em .5em 1em .5em;
     padding: .25em;
-    border: 1px dotted gray;
+    /*border: 1px dotted gray;*/
 }
