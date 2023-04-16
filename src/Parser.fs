@@ -1,4 +1,4 @@
-module Parser
+module App.Parser
 
 open Parsec
 
@@ -22,19 +22,18 @@ and Block =
     | Return of string
     | Exit of string
     | Sequence of Sequence
-    
+
 and Else = Blocks of Block list
 
 and If =
     { condition: Sequence
       blocks: Block list
-      else_ifs: ElseIf list
+      else_ifs: Block list
       opt_else: Else option }
 
 and ElseIf =
     { condition: Sequence
-      blocks: Block list
-      opt_else: Else option }
+      blocks: Block list }
 
 and Loop =
     { kind: loops
@@ -44,10 +43,35 @@ and Loop =
 
 and Concurrent = { threads: Block list list }
 
+let public isEmptySequence =
+    function
+    | Block.Sequence(Text s) -> s.Equals ""
+    | _ -> false
+
 let private pBlock, private pBlockRef = createParserForwardedToRef ()
 
+let private blockNotClosedError block =
+    $"{block} block not closed with \"end{block}\":"
+
+let private keywords: Parser<unit> =
+    choice
+        [ skipString "endif:"
+          skipString "if:"
+          skipString "elseif:"
+          skipString "else:"
+          skipString "loop:"
+          skipString "endloop:"
+          skipString "for:"
+          skipString "endfor:"
+          skipString "concurrent:"
+          skipString "thread:"
+          skipString "break:"
+          skipString "exit:"
+          skipString "return:" ]
+
 let private pSequence =
-    (manyChars (satisfy (isNoneOf "\n")) |>> Sequence.Text)
+    notFollowedByL (spaces >>. keywords) "Keyword detected at start of sequence"
+    >>. (manyChars (satisfy (isNoneOf "\n")) |>> Sequence.Text)
     |>> (fun (Sequence.Text s) -> Sequence.Text <| s.Trim())
 
 let private pKeyWordWithCond keyword =
@@ -73,11 +97,13 @@ let private pElse =
 
 let private pElseIf =
     pipe2
-        (pKeyWordWithCond "elseif:")
-        (sepEndBy
+        (pKeyWordWithCond "elseif:"
+         <|> (pKeyWord "elseif:" |>> fun _ -> Sequence.Text ""))
+        ((sepEndBy
             pBlock
-            (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:" <|> (spaces .>> pstring "elseif:"))
+            (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "elseif:" <|> pKeyWord "else")
              >>. skipNewline))
+         <|> (spaces |>> fun _ -> []))
         (fun x1 x2 ->
             { condition = x1
               blocks =
@@ -85,17 +111,20 @@ let private pElseIf =
                     (function
                     | Block.Sequence(Sequence.Text(el)) -> not (el.Equals "")
                     | _ -> true)
-                    x2
-              opt_else = None })
+                    x2 })
     |>> Block.ElseIf
 
+let pIfBody =
+    (sepEndBy (pElseIf <|> pBlock) (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:") >>. skipNewline))
+    <|> (spaces |>> fun _ -> [])
 
 let private pIf =
     pipe4
         (pKeyWordWithCond "if:" <|> (pKeyWord "if:" |>> fun _ -> Sequence.Text ""))
-        (sepEndBy (pElseIf <|> pBlock) (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:") >>. skipNewline))
+        pIfBody
         (opt pElse)
-        (spaces >>. ((pKeyWordWithCond "endif:" |>> fun _ -> ()) <|> skipString "endif:"))
+        (spaces >>. ((pKeyWordWithCond "endif:" |>> ignore) <|> skipString "endif:")
+         <?> blockNotClosedError "if")
         (fun x1 x2 x3 _ ->
             { condition = x1
               blocks =
@@ -112,39 +141,48 @@ let private pIf =
                            | Block.ElseIf _ -> true
                            | _ -> false)
                       then
-                          yield
-                              (match x with
-                               | Block.ElseIf e -> e
-                               | _ -> failwith "????") ]
+                          yield x ]
               opt_else = x3 })
 
 
 let private pThread =
+    let errorMsg = blockNotClosedError "concurrent"
+
     (pKeyWordWithCond "thread:")
     >>. skipNewline
     >>. manyTill (pBlock .>> skipNewline) (followedBy (pKeyWord "endconcurrent:" <|> pKeyWord "thread:"))
+    <?> errorMsg
     |>> List.filter (function
         | Block.Sequence(Sequence.Text(el)) -> not (el.Equals "")
         | _ -> true)
 
 let private pConcurrent =
+    let errorMsg = blockNotClosedError "concurrent"
+
     pKeyWordWithCond "concurrent:"
     >>. (sepEndBy (pThread <|> (pBlock |>> fun a -> [ a ])) (notFollowedBy (pKeyWord "endconcurrent:") >>. skipNewline))
-    .>> (spaces
-         >>. ((pKeyWordWithCond "endconcurrent:" |>> fun _ -> ())
-              <|> skipString "endconcurrent:"))
     |>> fun threads -> { threads = threads }
+    .>> (spaces
+         >>. (((pKeyWordWithCond "endconcurrent:" |>> fun _ -> ())
+               <|> skipString "endconcurrent:")
+              <?> errorMsg))
+
 
 
 let private pAnyLoop keyword kind withEndCond =
+    let errorMsg = blockNotClosedError keyword
+
     let loopCond =
         pKeyWordWithCond keyword |>> Some <|> (pKeyWord keyword |>> fun _ -> None)
 
     let loopEndCond: Parser<Sequence option> =
-        if withEndCond then
-            (pKeyWordWithCond $"end{keyword}" |>> Some)
-        else
-            (spaces >>. skipString $"end{keyword}" |>> fun _ -> None)
+        (pKeyWordWithCond $"end{keyword}"
+         |>> fun s ->
+             if isEmptySequence (Sequence s) && withEndCond then
+                 None
+             else
+                 Some s)
+        <?> errorMsg
 
     pipe3 loopCond (sepEndBy pBlock (notFollowedBy loopEndCond >>. skipNewline)) loopEndCond (fun x1 x2 x3 ->
         { kind = kind
@@ -187,9 +225,4 @@ pBlockRef.Value <-
           pSequence |>> Block.Sequence ]
 
 let public parseSource src =
-    run (manyTill (pBlock .>> spaces) eof) () (StringSegment.ofString src)
-
-let public isEmptySequence =
-    function
-        | Block.Sequence(Text s) -> s.Equals "" 
-        | _ -> false
+    run (many1Till (pBlock .>> spaces) eof) () (StringSegment.ofString src)

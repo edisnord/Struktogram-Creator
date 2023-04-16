@@ -2,7 +2,7 @@ module DisplayDiagram
 
 open System.Collections.Generic
 open Feliz
-open Parser
+open App.Parser
 
 [<ReactComponent>]
 let Caption (caption: string) =

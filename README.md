@@ -4,7 +4,7 @@ WIP Struktogram(Nassi-Shneiderman diagram) creator for the web, with syntax grea
 This tool is being made with Parsec.fs for the language parsing, [Feliz](https://zaid-ajaj.github.io/Feliz) and [Fable](https://fable.io/)
 ## Requirements to run on your own PC
 
-* [dotnet SDK](https://www.microsoft.com/net/download/core) v7.0 or higher
+* [dotnet SDK](https://www.microsoft.com/net/download/core) v7.0 or higher (with dotnet CLI in path)
 * [node.js](https://nodejs.org) v18+ LTS
 * [paket](https://fsprojects.github.io/Paket/index.html)
 
@@ -51,3 +51,10 @@ To build the application and make ready for production:
 npm run build
 ```
 This command builds the application and puts the generated files into the `dist` directory (can be overwritten in vite.config.js).
+
+## Testing
+
+To run the project's tests:
+```
+npm run test
+```

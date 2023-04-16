@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		vite.config.js = vite.config.js
 	EndProjectSection
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "tests", "tests\tests.fsproj", "{86D02813-4A18-4927-BC7D-D9395AAE925E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,14 @@ Global
 		{7821B727-268F-44AD-8136-B300B323F578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7821B727-268F-44AD-8136-B300B323F578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7821B727-268F-44AD-8136-B300B323F578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0758E67B-ED07-4401-8545-28BFB14BC7E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0758E67B-ED07-4401-8545-28BFB14BC7E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0758E67B-ED07-4401-8545-28BFB14BC7E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0758E67B-ED07-4401-8545-28BFB14BC7E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86D02813-4A18-4927-BC7D-D9395AAE925E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86D02813-4A18-4927-BC7D-D9395AAE925E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86D02813-4A18-4927-BC7D-D9395AAE925E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86D02813-4A18-4927-BC7D-D9395AAE925E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
