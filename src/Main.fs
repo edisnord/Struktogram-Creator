@@ -13,8 +13,11 @@ let codeArea = document.getElementById "codeEditor" :?> Browser.Types.HTMLDivEle
 
 let createButton =
     document.getElementById ("createButton") :?> Browser.Types.HTMLButtonElement
+    
+let hideButton =
+    document.getElementById ("clearButton") :?> Browser.Types.HTMLButtonElement
 
-let root = ReactDOM.createRoot (document.getElementById "feliz-app")
+let mutable root = ReactDOM.createRoot (document.getElementById "feliz-app")
 
 let editor: obj = ace?edit codeArea
 editor?setFontSize 20
@@ -30,3 +33,5 @@ let public parseCode () =
     | Error errorValue -> failwith <| errorValue.ToString()
 
 createButton.addEventListener ("click", (fun _ -> root.render <| DisplayDiagram.Diagram(parseCode ())))
+hideButton.addEventListener ("click", (fun _ -> root.unmount()
+                                                root <- ReactDOM.createRoot (document.getElementById "feliz-app")))
