@@ -9,9 +9,12 @@
       <Paket>True</Paket>
       <Link>paket-files/Parsec.fs</Link>
     </Compile>
+    <Compile Include="Utils.fs" />
+    <Compile Include="IfTests.fs" />
     <Compile Include="Tests.fs" />
     <PackageReference Include="Fable.Mocha" Version="2.16.0" />
     <Content Include="paket.references" />
+    <Compile Include="LoopTests.fs" />
     <ProjectReference Include="../src/App.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />

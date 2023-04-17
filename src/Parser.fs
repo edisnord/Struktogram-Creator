@@ -13,7 +13,6 @@ type Sequence = Text of string
 and Block =
     | Caption of string
     | If of If
-    | ElseIf of ElseIf
     | Loop of Loop
     | Break of string
     | Concurrent of Concurrent
@@ -23,17 +22,13 @@ and Block =
     | Exit of string
     | Sequence of Sequence
 
-and Else = Blocks of Block list
+and Else = Block list
 
 and If =
     { condition: Sequence
       blocks: Block list
-      else_ifs: Block list
       opt_else: Else option }
 
-and ElseIf =
-    { condition: Sequence
-      blocks: Block list }
 
 and Loop =
     { kind: loops
@@ -57,7 +52,6 @@ let private keywords: Parser<unit> =
     choice
         [ skipString "endif:"
           skipString "if:"
-          skipString "elseif:"
           skipString "else:"
           skipString "loop:"
           skipString "endloop:"
@@ -86,39 +80,19 @@ let private pKeyWord kw =
     .>> (skipManyTill (anyOf " \t") <| followedBy (skipNewline <|> eof))
 
 
-let private pElse =
+let private pElse: Parser<Else> =
     (pKeyWord "else:")
     >>. skipNewline
-    >>. manyTill (pBlock .>> skipNewline) (followedBy (pKeyWord "endif:"))
+    >>. manyTill (pBlock .>> skipNewline) (followedBy (pKeyWord "endif:")) 
     |>> List.filter (function
         | Block.Sequence(Sequence.Text(el)) -> not (el.Equals "")
         | _ -> true)
-    |>> Else.Blocks
-
-let private pElseIf =
-    pipe2
-        (pKeyWordWithCond "elseif:"
-         <|> (pKeyWord "elseif:" |>> fun _ -> Sequence.Text ""))
-        ((sepEndBy
-            pBlock
-            (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "elseif:" <|> pKeyWord "else")
-             >>. skipNewline))
-         <|> (spaces |>> fun _ -> []))
-        (fun x1 x2 ->
-            { condition = x1
-              blocks =
-                List.filter
-                    (function
-                    | Block.Sequence(Sequence.Text(el)) -> not (el.Equals "")
-                    | _ -> true)
-                    x2 })
-    |>> Block.ElseIf
-
-let pIfBody =
-    (sepEndBy (pElseIf <|> pBlock) (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:") >>. skipNewline))
-    <|> (spaces |>> fun _ -> [])
+    
 
 let private pIf =
+    let pIfBody =
+        (sepEndBy pBlock (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:") >>. skipNewline))
+        <|> (spaces |>> fun _ -> [])
     pipe4
         (pKeyWordWithCond "if:" <|> (pKeyWord "if:" |>> fun _ -> Sequence.Text ""))
         pIfBody
@@ -127,21 +101,7 @@ let private pIf =
          <?> blockNotClosedError "if")
         (fun x1 x2 x3 _ ->
             { condition = x1
-              blocks =
-                List.filter
-                    (function
-                    | Block.Sequence(Sequence.Text(el)) -> not (el.Equals "")
-                    | Block.ElseIf _ -> false
-                    | _ -> true)
-                    x2
-              else_ifs =
-                [ for x in x2 do
-                      if
-                          (match x with
-                           | Block.ElseIf _ -> true
-                           | _ -> false)
-                      then
-                          yield x ]
+              blocks = List.filter (not << isEmptySequence) x2
               opt_else = x3 })
 
 

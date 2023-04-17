@@ -98,21 +98,21 @@ limitations under the License.
     box-sizing: border-box;
 }
 
-struct-concurrent > *, struct-decision > struct-block, struct-select > struct-case, struct-select > struct-block {
+struct-concurrent > *, .struct-decision > struct-block, struct-select > struct-case, struct-select > struct-block {
     display: table-cell;
     background-color: var(--structoview-bg-block);
     vertical-align: top;
 }
 
-struct-repeat, struct-concurrent, .struct-sequence, struct-decision, struct-select, struct-loop, struct-iteration, .struct-call, .struct-break, struct-comment {
+struct-repeat, struct-concurrent, .struct-sequence, .struct-decision, struct-select, struct-loop, struct-iteration, .struct-call, .struct-break, struct-comment {
     padding: .25em;
     background-color: var(--structoview-bg);
     border-top: 1px solid var(--structoview-line);
     border-left: 1px solid var(--structoview-line);
 }
 
-struct-decision, struct-select, struct-concurrent {
-    display: table;
+.struct-decision, struct-select, struct-concurrent {
+    display: block;
     width: 100%;
     box-sizing: border-box;
     padding: 0px;
@@ -120,15 +120,28 @@ struct-decision, struct-select, struct-concurrent {
     position: relative;
 }
 
+.struct-if {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 20em;
+}
+
+.decision-branches{
+    background-color: grey;
+    display: flex;
+    justify-content: space-between;
+}
+
 struct-concurrent {
     padding-bottom: 2.25em;
 }
 
-struct-decision:after, struct-select:after {
+.struct-decision:after, struct-select:after {
     text-align: center;
 }
 
-struct-decision:after, struct-select:after {
+.struct-decision:after, struct-select:after {
     display: table-caption;
     content: attr(condition);
     position: absolute;
@@ -142,12 +155,12 @@ struct-decision:after, struct-select:after {
     z-index: 10;
 }
 
-struct-decision > struct-block, struct-select > * {
+.struct-decision > struct-block, struct-select > * {
     position: relative;
     vertical-align: top;
 }
 
-struct-decision > struct-block:after,
+.struct-decision > struct-block:after,
 struct-select > struct-case:after,
 struct-select > struct-block:after {
     position: absolute;
@@ -157,12 +170,12 @@ struct-select > struct-block:after {
     color: var(--structoview-hint);
 }
 
-struct-decision > struct-block:last-child:after {
+.struct-decision > struct-block:last-child:after {
     content: var(--structoview-else);
     right: .25em;
 }
 
-struct-decision > struct-block:first-child:after {
+.struct-decision > struct-block:first-child:after {
     content: var(--structoview-then);
     left: .25em;
 }
@@ -235,18 +248,18 @@ struct-select > struct-case:not(:first-child) {
     content: ' ';
 }
 
-struct-decision > .struct-block > *,
+.struct-decision > .struct-block > *,
 struct-select > struct-case > *,
 struct-select > .struct-block > * {
     border-left: none;
 }
 
-struct-decision > struct-block:first-child:before,
+.struct-decision > struct-block:first-child:before,
 struct-select > struct-case:first-of-type:before {
     background-image: linear-gradient(to top right, transparent calc(50% - 1px), var(--structoview-line), transparent calc(50% + 1px));
 }
 
-struct-decision > struct-block:last-child:before,
+.struct-decision > struct-block:last-child:before,
 struct-select > struct-block:before {
     background-image: linear-gradient(to bottom right, transparent calc(50% - 1px), var(--structoview-line), transparent calc(50% + 1px));
 }
@@ -255,7 +268,7 @@ struct-select > struct-case:after {
     content: attr(condition);
 }
 
-struct-decision > struct-block:before,
+.struct-decision > struct-block:before,
 struct-select > struct-case:first-of-type:before,
 struct-select > struct-block:before {
     content: '';
@@ -280,7 +293,7 @@ struct-block:not(:first-child) {
 }
 
 struct-concurrent > struct-block > *:last-child,
-struct-decision > struct-block > *:last-child,
+.struct-decision > struct-block > *:last-child,
 struct-repeat > struct-block > *:last-child,
 struct-loop > struct-block > *:last-child,
 struct-select > * > *:last-child {
