@@ -6,7 +6,7 @@ import { CharParsers_StringBuilder__Append_Z721C83C5, CharParsers_StringBuilder_
 import { CharParsers_eof, CharParsers_spaces, StringSegment, ErrorType, Position } from "../paket-files/cannorin/Parsec.fs/Parsec.js";
 import { partialApply, defaultOf, comparePrimitives, max } from "../fable_modules/fable-library.4.0.1/Util.js";
 import { replace, toText, printf, toFail } from "../fable_modules/fable-library.4.0.1/String.js";
-import { empty as empty_1, singleton as singleton_1, collect, delay, toList } from "../fable_modules/fable-library.4.0.1/Seq.js";
+import { toList } from "../fable_modules/fable-library.4.0.1/Seq.js";
 
 export class loops extends Union {
     "constructor"(tag, fields) {
@@ -45,53 +45,25 @@ export class Block extends Union {
         this.fields = fields;
     }
     cases() {
-        return ["Caption", "If", "ElseIf", "Loop", "Break", "Concurrent", "Thread", "Call", "Return", "Exit", "Sequence"];
+        return ["Caption", "If", "Loop", "Break", "Concurrent", "Thread", "Call", "Return", "Exit", "Sequence"];
     }
 }
 
 export function Block$reflection() {
-    return union_type("App.Parser.Block", [], Block, () => [[["Item", string_type]], [["Item", If$reflection()]], [["Item", ElseIf$reflection()]], [["Item", Loop$reflection()]], [["Item", string_type]], [["Item", Concurrent$reflection()]], [["Item", list_type(Block$reflection())]], [["Item", string_type]], [["Item", string_type]], [["Item", string_type]], [["Item", Sequence$reflection()]]]);
-}
-
-export class Else extends Union {
-    "constructor"(tag, fields) {
-        super();
-        this.tag = tag;
-        this.fields = fields;
-    }
-    cases() {
-        return ["Blocks"];
-    }
-}
-
-export function Else$reflection() {
-    return union_type("App.Parser.Else", [], Else, () => [[["Item", list_type(Block$reflection())]]]);
+    return union_type("App.Parser.Block", [], Block, () => [[["Item", string_type]], [["Item", If$reflection()]], [["Item", Loop$reflection()]], [["Item", string_type]], [["Item", Concurrent$reflection()]], [["Item", list_type(Block$reflection())]], [["Item", string_type]], [["Item", string_type]], [["Item", string_type]], [["Item", Sequence$reflection()]]]);
 }
 
 export class If extends Record {
-    "constructor"(condition, blocks, else_ifs, opt_else) {
+    "constructor"(condition, blocks, opt_else) {
         super();
         this.condition = condition;
         this.blocks = blocks;
-        this.else_ifs = else_ifs;
         this.opt_else = opt_else;
     }
 }
 
 export function If$reflection() {
-    return record_type("App.Parser.If", [], If, () => [["condition", Sequence$reflection()], ["blocks", list_type(Block$reflection())], ["else_ifs", list_type(Block$reflection())], ["opt_else", option_type(Else$reflection())]]);
-}
-
-export class ElseIf extends Record {
-    "constructor"(condition, blocks) {
-        super();
-        this.condition = condition;
-        this.blocks = blocks;
-    }
-}
-
-export function ElseIf$reflection() {
-    return record_type("App.Parser.ElseIf", [], ElseIf, () => [["condition", Sequence$reflection()], ["blocks", list_type(Block$reflection())]]);
+    return record_type("App.Parser.If", [], If, () => [["condition", Sequence$reflection()], ["blocks", list_type(Block$reflection())], ["opt_else", option_type(list_type(Block$reflection()))]]);
 }
 
 export class Loop extends Record {
@@ -120,7 +92,7 @@ export function Concurrent$reflection() {
 }
 
 export function isEmptySequence(_arg) {
-    if (_arg.tag === 10) {
+    if (_arg.tag === 9) {
         return _arg.fields[0].fields[0] === "";
     }
     else {
@@ -128,40 +100,40 @@ export function isEmptySequence(_arg) {
     }
 }
 
-export const patternInput$004051 = (() => {
+export const patternInput$004046 = (() => {
     const r = new FSharpRef((tupledArg) => {
         throw new Error("invalid definition with createParserForwardedToRef");
     });
     return [(tupledArg_1) => r.contents([tupledArg_1[0], tupledArg_1[1]]), r];
 })();
 
-const pBlockRef = patternInput$004051[1];
+const pBlockRef = patternInput$004046[1];
 
-const pBlock = patternInput$004051[0];
+const pBlock = patternInput$004046[0];
 
 function blockNotClosedError(block) {
     return `${block} block not closed with "end${block}":`;
 }
 
-const keywords = (tupledArg_13) => {
-    const s_40 = tupledArg_13[1];
+const keywords = (tupledArg_12) => {
+    const s_37 = tupledArg_12[1];
     const go = (state_1_1_mut, errorsAcc_mut, _arg_mut) => {
-        let this$_26;
+        let this$_24;
         go:
         while (true) {
             const state_1_1 = state_1_1_mut, errorsAcc = errorsAcc_mut, _arg = _arg_mut;
             if (!isEmpty(_arg)) {
                 if (isEmpty(tail(_arg))) {
-                    const matchValue_13 = Result_MapError((tupledArg_14) => ParseError_sort(tupledArg_14[0], tupledArg_14[1]), head(_arg)([state_1_1, s_40]));
-                    if (matchValue_13.tag === 1) {
-                        return new FSharpResult$2(1, [[append(errorsAcc, matchValue_13.fields[0][0]), matchValue_13.fields[0][1]]]);
+                    const matchValue_12 = Result_MapError((tupledArg_13) => ParseError_sort(tupledArg_13[0], tupledArg_13[1]), head(_arg)([state_1_1, s_37]));
+                    if (matchValue_12.tag === 1) {
+                        return new FSharpResult$2(1, [[append(errorsAcc, matchValue_12.fields[0][0]), matchValue_12.fields[0][1]]]);
                     }
                     else {
-                        return matchValue_13;
+                        return matchValue_12;
                     }
                 }
                 else {
-                    const matchValue_1_1 = Result_MapError((tupledArg_15) => ParseError_sort(tupledArg_15[0], tupledArg_15[1]), head(_arg)([state_1_1, s_40]));
+                    const matchValue_1_1 = Result_MapError((tupledArg_14) => ParseError_sort(tupledArg_14[0], tupledArg_14[1]), head(_arg)([state_1_1, s_37]));
                     if (matchValue_1_1.tag === 1) {
                         state_1_1_mut = matchValue_1_1.fields[0][1];
                         errorsAcc_mut = append(matchValue_1_1.fields[0][0], errorsAcc);
@@ -174,7 +146,7 @@ const keywords = (tupledArg_13) => {
                 }
             }
             else {
-                return new FSharpResult$2(1, [[singleton([(this$_26 = s_40, new Position(this$_26.startLine, this$_26.startColumn)), singleton(new ErrorType(2, ["No parsers given"]))]), state_1_1]]);
+                return new FSharpResult$2(1, [[singleton([(this$_24 = s_37, new Position(this$_24.startLine, this$_24.startColumn)), singleton(new ErrorType(2, ["No parsers given"]))]), state_1_1]]);
             }
             break;
         }
@@ -213,7 +185,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_2.startIndex + start_1_1, len_1, this$_2.underlying, line_1, column_1)))))) : ((clo_2 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_1 = clo_2(start_1_1), clo_1_1(finish_1_1)))))))), state_4]])) : (new FSharpResult$2(1, [[singleton([(this$_3 = s_4, new Position(this$_3.startLine, this$_3.startColumn)), singleton(new ErrorType(0, [("\'" + str_3) + "\'"]))]), state_4]]));
     }, (tupledArg_2) => {
         let length_4, this$_4, start_1_2, finish_1_2, len_2, line_2, column_2, clo_3, clo_1_2, this$_5;
-        const str_5 = "elseif:";
+        const str_5 = "else:";
         const state_7 = tupledArg_2[0];
         const s_7 = tupledArg_2[1];
         return StringSegmentModule_startsWith(str_5, s_7) ? (new FSharpResult$2(0, [[void 0, (length_4 = (str_5.length | 0), (this$_4 = s_7, (start_1_2 = (length_4 | 0), (finish_1_2 = ((this$_4.length - 1) | 0), (((start_1_2 >= 0) && (start_1_2 <= this$_4.length)) && (finish_1_2 < max(comparePrimitives, start_1_2, this$_4.length))) ? ((len_2 = (max(comparePrimitives, 0, (finish_1_2 - start_1_2) + 1) | 0), (line_2 = this$_4.startLine, (column_2 = this$_4.startColumn, ((() => {
@@ -229,7 +201,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_4.startIndex + start_1_2, len_2, this$_4.underlying, line_2, column_2)))))) : ((clo_3 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_2 = clo_3(start_1_2), clo_1_2(finish_1_2)))))))), state_7]])) : (new FSharpResult$2(1, [[singleton([(this$_5 = s_7, new Position(this$_5.startLine, this$_5.startColumn)), singleton(new ErrorType(0, [("\'" + str_5) + "\'"]))]), state_7]]));
     }, (tupledArg_3) => {
         let length_6, this$_6, start_1_3, finish_1_3, len_3, line_3, column_3, clo_4, clo_1_3, this$_7;
-        const str_7 = "else:";
+        const str_7 = "loop:";
         const state_10 = tupledArg_3[0];
         const s_10 = tupledArg_3[1];
         return StringSegmentModule_startsWith(str_7, s_10) ? (new FSharpResult$2(0, [[void 0, (length_6 = (str_7.length | 0), (this$_6 = s_10, (start_1_3 = (length_6 | 0), (finish_1_3 = ((this$_6.length - 1) | 0), (((start_1_3 >= 0) && (start_1_3 <= this$_6.length)) && (finish_1_3 < max(comparePrimitives, start_1_3, this$_6.length))) ? ((len_3 = (max(comparePrimitives, 0, (finish_1_3 - start_1_3) + 1) | 0), (line_3 = this$_6.startLine, (column_3 = this$_6.startColumn, ((() => {
@@ -245,7 +217,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_6.startIndex + start_1_3, len_3, this$_6.underlying, line_3, column_3)))))) : ((clo_4 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_3 = clo_4(start_1_3), clo_1_3(finish_1_3)))))))), state_10]])) : (new FSharpResult$2(1, [[singleton([(this$_7 = s_10, new Position(this$_7.startLine, this$_7.startColumn)), singleton(new ErrorType(0, [("\'" + str_7) + "\'"]))]), state_10]]));
     }, (tupledArg_4) => {
         let length_8, this$_8, start_1_4, finish_1_4, len_4, line_4, column_4, clo_5, clo_1_4, this$_9;
-        const str_9 = "loop:";
+        const str_9 = "endloop:";
         const state_13 = tupledArg_4[0];
         const s_13 = tupledArg_4[1];
         return StringSegmentModule_startsWith(str_9, s_13) ? (new FSharpResult$2(0, [[void 0, (length_8 = (str_9.length | 0), (this$_8 = s_13, (start_1_4 = (length_8 | 0), (finish_1_4 = ((this$_8.length - 1) | 0), (((start_1_4 >= 0) && (start_1_4 <= this$_8.length)) && (finish_1_4 < max(comparePrimitives, start_1_4, this$_8.length))) ? ((len_4 = (max(comparePrimitives, 0, (finish_1_4 - start_1_4) + 1) | 0), (line_4 = this$_8.startLine, (column_4 = this$_8.startColumn, ((() => {
@@ -261,7 +233,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_8.startIndex + start_1_4, len_4, this$_8.underlying, line_4, column_4)))))) : ((clo_5 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_4 = clo_5(start_1_4), clo_1_4(finish_1_4)))))))), state_13]])) : (new FSharpResult$2(1, [[singleton([(this$_9 = s_13, new Position(this$_9.startLine, this$_9.startColumn)), singleton(new ErrorType(0, [("\'" + str_9) + "\'"]))]), state_13]]));
     }, (tupledArg_5) => {
         let length_10, this$_10, start_1_5, finish_1_5, len_5, line_5, column_5, clo_6, clo_1_5, this$_11;
-        const str_11 = "endloop:";
+        const str_11 = "for:";
         const state_16 = tupledArg_5[0];
         const s_16 = tupledArg_5[1];
         return StringSegmentModule_startsWith(str_11, s_16) ? (new FSharpResult$2(0, [[void 0, (length_10 = (str_11.length | 0), (this$_10 = s_16, (start_1_5 = (length_10 | 0), (finish_1_5 = ((this$_10.length - 1) | 0), (((start_1_5 >= 0) && (start_1_5 <= this$_10.length)) && (finish_1_5 < max(comparePrimitives, start_1_5, this$_10.length))) ? ((len_5 = (max(comparePrimitives, 0, (finish_1_5 - start_1_5) + 1) | 0), (line_5 = this$_10.startLine, (column_5 = this$_10.startColumn, ((() => {
@@ -277,7 +249,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_10.startIndex + start_1_5, len_5, this$_10.underlying, line_5, column_5)))))) : ((clo_6 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_5 = clo_6(start_1_5), clo_1_5(finish_1_5)))))))), state_16]])) : (new FSharpResult$2(1, [[singleton([(this$_11 = s_16, new Position(this$_11.startLine, this$_11.startColumn)), singleton(new ErrorType(0, [("\'" + str_11) + "\'"]))]), state_16]]));
     }, (tupledArg_6) => {
         let length_12, this$_12, start_1_6, finish_1_6, len_6, line_6, column_6, clo_7, clo_1_6, this$_13;
-        const str_13 = "for:";
+        const str_13 = "endfor:";
         const state_19 = tupledArg_6[0];
         const s_19 = tupledArg_6[1];
         return StringSegmentModule_startsWith(str_13, s_19) ? (new FSharpResult$2(0, [[void 0, (length_12 = (str_13.length | 0), (this$_12 = s_19, (start_1_6 = (length_12 | 0), (finish_1_6 = ((this$_12.length - 1) | 0), (((start_1_6 >= 0) && (start_1_6 <= this$_12.length)) && (finish_1_6 < max(comparePrimitives, start_1_6, this$_12.length))) ? ((len_6 = (max(comparePrimitives, 0, (finish_1_6 - start_1_6) + 1) | 0), (line_6 = this$_12.startLine, (column_6 = this$_12.startColumn, ((() => {
@@ -293,7 +265,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_12.startIndex + start_1_6, len_6, this$_12.underlying, line_6, column_6)))))) : ((clo_7 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_6 = clo_7(start_1_6), clo_1_6(finish_1_6)))))))), state_19]])) : (new FSharpResult$2(1, [[singleton([(this$_13 = s_19, new Position(this$_13.startLine, this$_13.startColumn)), singleton(new ErrorType(0, [("\'" + str_13) + "\'"]))]), state_19]]));
     }, (tupledArg_7) => {
         let length_14, this$_14, start_1_7, finish_1_7, len_7, line_7, column_7, clo_8, clo_1_7, this$_15;
-        const str_15 = "endfor:";
+        const str_15 = "concurrent:";
         const state_22 = tupledArg_7[0];
         const s_22 = tupledArg_7[1];
         return StringSegmentModule_startsWith(str_15, s_22) ? (new FSharpResult$2(0, [[void 0, (length_14 = (str_15.length | 0), (this$_14 = s_22, (start_1_7 = (length_14 | 0), (finish_1_7 = ((this$_14.length - 1) | 0), (((start_1_7 >= 0) && (start_1_7 <= this$_14.length)) && (finish_1_7 < max(comparePrimitives, start_1_7, this$_14.length))) ? ((len_7 = (max(comparePrimitives, 0, (finish_1_7 - start_1_7) + 1) | 0), (line_7 = this$_14.startLine, (column_7 = this$_14.startColumn, ((() => {
@@ -309,7 +281,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_14.startIndex + start_1_7, len_7, this$_14.underlying, line_7, column_7)))))) : ((clo_8 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_7 = clo_8(start_1_7), clo_1_7(finish_1_7)))))))), state_22]])) : (new FSharpResult$2(1, [[singleton([(this$_15 = s_22, new Position(this$_15.startLine, this$_15.startColumn)), singleton(new ErrorType(0, [("\'" + str_15) + "\'"]))]), state_22]]));
     }, (tupledArg_8) => {
         let length_16, this$_16, start_1_8, finish_1_8, len_8, line_8, column_8, clo_9, clo_1_8, this$_17;
-        const str_17 = "concurrent:";
+        const str_17 = "thread:";
         const state_25 = tupledArg_8[0];
         const s_25 = tupledArg_8[1];
         return StringSegmentModule_startsWith(str_17, s_25) ? (new FSharpResult$2(0, [[void 0, (length_16 = (str_17.length | 0), (this$_16 = s_25, (start_1_8 = (length_16 | 0), (finish_1_8 = ((this$_16.length - 1) | 0), (((start_1_8 >= 0) && (start_1_8 <= this$_16.length)) && (finish_1_8 < max(comparePrimitives, start_1_8, this$_16.length))) ? ((len_8 = (max(comparePrimitives, 0, (finish_1_8 - start_1_8) + 1) | 0), (line_8 = this$_16.startLine, (column_8 = this$_16.startColumn, ((() => {
@@ -325,7 +297,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_16.startIndex + start_1_8, len_8, this$_16.underlying, line_8, column_8)))))) : ((clo_9 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_8 = clo_9(start_1_8), clo_1_8(finish_1_8)))))))), state_25]])) : (new FSharpResult$2(1, [[singleton([(this$_17 = s_25, new Position(this$_17.startLine, this$_17.startColumn)), singleton(new ErrorType(0, [("\'" + str_17) + "\'"]))]), state_25]]));
     }, (tupledArg_9) => {
         let length_18, this$_18, start_1_9, finish_1_9, len_9, line_9, column_9, clo_10, clo_1_9, this$_19;
-        const str_19 = "thread:";
+        const str_19 = "break:";
         const state_28 = tupledArg_9[0];
         const s_28 = tupledArg_9[1];
         return StringSegmentModule_startsWith(str_19, s_28) ? (new FSharpResult$2(0, [[void 0, (length_18 = (str_19.length | 0), (this$_18 = s_28, (start_1_9 = (length_18 | 0), (finish_1_9 = ((this$_18.length - 1) | 0), (((start_1_9 >= 0) && (start_1_9 <= this$_18.length)) && (finish_1_9 < max(comparePrimitives, start_1_9, this$_18.length))) ? ((len_9 = (max(comparePrimitives, 0, (finish_1_9 - start_1_9) + 1) | 0), (line_9 = this$_18.startLine, (column_9 = this$_18.startColumn, ((() => {
@@ -341,7 +313,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_18.startIndex + start_1_9, len_9, this$_18.underlying, line_9, column_9)))))) : ((clo_10 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_9 = clo_10(start_1_9), clo_1_9(finish_1_9)))))))), state_28]])) : (new FSharpResult$2(1, [[singleton([(this$_19 = s_28, new Position(this$_19.startLine, this$_19.startColumn)), singleton(new ErrorType(0, [("\'" + str_19) + "\'"]))]), state_28]]));
     }, (tupledArg_10) => {
         let length_20, this$_20, start_1_10, finish_1_10, len_10, line_10, column_10, clo_11, clo_1_10, this$_21;
-        const str_21 = "break:";
+        const str_21 = "exit:";
         const state_31 = tupledArg_10[0];
         const s_31 = tupledArg_10[1];
         return StringSegmentModule_startsWith(str_21, s_31) ? (new FSharpResult$2(0, [[void 0, (length_20 = (str_21.length | 0), (this$_20 = s_31, (start_1_10 = (length_20 | 0), (finish_1_10 = ((this$_20.length - 1) | 0), (((start_1_10 >= 0) && (start_1_10 <= this$_20.length)) && (finish_1_10 < max(comparePrimitives, start_1_10, this$_20.length))) ? ((len_10 = (max(comparePrimitives, 0, (finish_1_10 - start_1_10) + 1) | 0), (line_10 = this$_20.startLine, (column_10 = this$_20.startColumn, ((() => {
@@ -357,7 +329,7 @@ const keywords = (tupledArg_13) => {
         })(), new StringSegment(this$_20.startIndex + start_1_10, len_10, this$_20.underlying, line_10, column_10)))))) : ((clo_11 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_10 = clo_11(start_1_10), clo_1_10(finish_1_10)))))))), state_31]])) : (new FSharpResult$2(1, [[singleton([(this$_21 = s_31, new Position(this$_21.startLine, this$_21.startColumn)), singleton(new ErrorType(0, [("\'" + str_21) + "\'"]))]), state_31]]));
     }, (tupledArg_11) => {
         let length_22, this$_22, start_1_11, finish_1_11, len_11, line_11, column_11, clo_12, clo_1_11, this$_23;
-        const str_23 = "exit:";
+        const str_23 = "return:";
         const state_34 = tupledArg_11[0];
         const s_34 = tupledArg_11[1];
         return StringSegmentModule_startsWith(str_23, s_34) ? (new FSharpResult$2(0, [[void 0, (length_22 = (str_23.length | 0), (this$_22 = s_34, (start_1_11 = (length_22 | 0), (finish_1_11 = ((this$_22.length - 1) | 0), (((start_1_11 >= 0) && (start_1_11 <= this$_22.length)) && (finish_1_11 < max(comparePrimitives, start_1_11, this$_22.length))) ? ((len_11 = (max(comparePrimitives, 0, (finish_1_11 - start_1_11) + 1) | 0), (line_11 = this$_22.startLine, (column_11 = this$_22.startColumn, ((() => {
@@ -371,22 +343,6 @@ const keywords = (tupledArg_13) => {
                 }
             }
         })(), new StringSegment(this$_22.startIndex + start_1_11, len_11, this$_22.underlying, line_11, column_11)))))) : ((clo_12 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_11 = clo_12(start_1_11), clo_1_11(finish_1_11)))))))), state_34]])) : (new FSharpResult$2(1, [[singleton([(this$_23 = s_34, new Position(this$_23.startLine, this$_23.startColumn)), singleton(new ErrorType(0, [("\'" + str_23) + "\'"]))]), state_34]]));
-    }, (tupledArg_12) => {
-        let length_24, this$_24, start_1_12, finish_1_12, len_12, line_12, column_12, clo_13, clo_1_12, this$_25;
-        const str_25 = "return:";
-        const state_37 = tupledArg_12[0];
-        const s_37 = tupledArg_12[1];
-        return StringSegmentModule_startsWith(str_25, s_37) ? (new FSharpResult$2(0, [[void 0, (length_24 = (str_25.length | 0), (this$_24 = s_37, (start_1_12 = (length_24 | 0), (finish_1_12 = ((this$_24.length - 1) | 0), (((start_1_12 >= 0) && (start_1_12 <= this$_24.length)) && (finish_1_12 < max(comparePrimitives, start_1_12, this$_24.length))) ? ((len_12 = (max(comparePrimitives, 0, (finish_1_12 - start_1_12) + 1) | 0), (line_12 = this$_24.startLine, (column_12 = this$_24.startColumn, ((() => {
-            for (let i_12 = 0; i_12 <= (start_1_12 - 1); i_12++) {
-                if (this$_24.underlying[this$_24.startIndex + i_12] === "\n") {
-                    line_12 = ((line_12 + 1) | 0);
-                    column_12 = 0;
-                }
-                else {
-                    column_12 = ((column_12 + 1) | 0);
-                }
-            }
-        })(), new StringSegment(this$_24.startIndex + start_1_12, len_12, this$_24.underlying, line_12, column_12)))))) : ((clo_13 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_12 = clo_13(start_1_12), clo_1_12(finish_1_12)))))))), state_37]])) : (new FSharpResult$2(1, [[singleton([(this$_25 = s_37, new Position(this$_25.startLine, this$_25.startColumn)), singleton(new ErrorType(0, [("\'" + str_25) + "\'"]))]), state_37]]));
     }]));
 };
 
@@ -730,7 +686,6 @@ function pKeyWord(kw) {
 }
 
 const pElse = (() => {
-    let p_24;
     let p_21;
     let p_4;
     const p = pKeyWord("else:");
@@ -843,86 +798,49 @@ const pElse = (() => {
             return new FSharpResult$2(1, [matchValue_8.fields[0]]);
         }
     });
-    p_24 = ((tupledArg_19) => {
+    return (tupledArg_19) => {
         const matchValue_9 = Result_MapError((tupledArg_20) => ParseError_sort(tupledArg_20[0], tupledArg_20[1]), p_21([void 0, tupledArg_19[1]]));
         return (matchValue_9.tag === 0) ? (new FSharpResult$2(0, [[filter((_arg_2) => {
-            if (_arg_2.tag === 10) {
+            if (_arg_2.tag === 9) {
                 return !(_arg_2.fields[0].fields[0] === "");
             }
             else {
                 return true;
             }
         }, matchValue_9.fields[0][0]), matchValue_9.fields[0][1], matchValue_9.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_9.fields[0]]));
-    });
-    return (tupledArg_21) => {
-        const matchValue_10 = Result_MapError((tupledArg_22) => ParseError_sort(tupledArg_22[0], tupledArg_22[1]), p_24([void 0, tupledArg_21[1]]));
-        return (matchValue_10.tag === 0) ? (new FSharpResult$2(0, [[new Else(0, [matchValue_10.fields[0][0]]), matchValue_10.fields[0][1], matchValue_10.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_10.fields[0]]));
     };
 })();
 
-const pElseIf = (() => {
-    let p_38;
-    let p_7;
-    const p = pKeyWordWithCond("elseif:");
-    let p_4;
-    const p_1 = pKeyWord("elseif:");
-    p_4 = ((tupledArg) => {
-        const matchValue = Result_MapError((tupledArg_1) => ParseError_sort(tupledArg_1[0], tupledArg_1[1]), p_1([void 0, tupledArg[1]]));
-        return (matchValue.tag === 0) ? (new FSharpResult$2(0, [[new Sequence(0, [""]), matchValue.fields[0][1], matchValue.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue.fields[0]]));
-    });
-    p_7 = ((tupledArg_2) => {
-        const s_3 = tupledArg_2[1];
-        const matchValue_1 = Result_MapError((tupledArg_3) => ParseError_sort(tupledArg_3[0], tupledArg_3[1]), p([void 0, s_3]));
-        if (matchValue_1.tag === 1) {
-            const matchValue_1_1 = Result_MapError((tupledArg_4) => ParseError_sort(tupledArg_4[0], tupledArg_4[1]), p_4([matchValue_1.fields[0][1], s_3]));
-            return (matchValue_1_1.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_1.fields[0][0], matchValue_1_1.fields[0][0]), matchValue_1_1.fields[0][1]]])) : matchValue_1_1;
-        }
-        else {
-            return matchValue_1;
-        }
-    });
-    let p_35;
-    let p_28;
-    let sep;
-    let p_19;
+const pIf = (() => {
+    let pIfBody;
     let p_16;
-    let p_12;
-    const p_8 = pKeyWord("endif:");
-    const p_9 = pKeyWord("elseif:");
-    p_12 = ((tupledArg_5) => {
-        const s_5 = tupledArg_5[1];
-        const matchValue_2 = Result_MapError((tupledArg_6) => ParseError_sort(tupledArg_6[0], tupledArg_6[1]), p_8([void 0, s_5]));
-        if (matchValue_2.tag === 1) {
-            const matchValue_1_2 = Result_MapError((tupledArg_7) => ParseError_sort(tupledArg_7[0], tupledArg_7[1]), p_9([matchValue_2.fields[0][1], s_5]));
-            return (matchValue_1_2.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_2.fields[0][0], matchValue_1_2.fields[0][0]), matchValue_1_2.fields[0][1]]])) : matchValue_1_2;
+    let sep;
+    let p_7;
+    let p_4;
+    const p = pKeyWord("endif:");
+    const p_1 = pKeyWord("else:");
+    p_4 = ((tupledArg) => {
+        const s_1 = tupledArg[1];
+        const matchValue = Result_MapError((tupledArg_1) => ParseError_sort(tupledArg_1[0], tupledArg_1[1]), p([void 0, s_1]));
+        if (matchValue.tag === 1) {
+            const matchValue_1 = Result_MapError((tupledArg_2) => ParseError_sort(tupledArg_2[0], tupledArg_2[1]), p_1([matchValue.fields[0][1], s_1]));
+            return (matchValue_1.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue.fields[0][0], matchValue_1.fields[0][0]), matchValue_1.fields[0][1]]])) : matchValue_1;
         }
         else {
-            return matchValue_2;
+            return matchValue;
         }
     });
-    const p_13 = pKeyWord("else");
-    p_16 = ((tupledArg_8) => {
-        const s_7 = tupledArg_8[1];
-        const matchValue_3 = Result_MapError((tupledArg_9) => ParseError_sort(tupledArg_9[0], tupledArg_9[1]), p_12([void 0, s_7]));
-        if (matchValue_3.tag === 1) {
-            const matchValue_1_3 = Result_MapError((tupledArg_10) => ParseError_sort(tupledArg_10[0], tupledArg_10[1]), p_13([matchValue_3.fields[0][1], s_7]));
-            return (matchValue_1_3.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_3.fields[0][0], matchValue_1_3.fields[0][0]), matchValue_1_3.fields[0][1]]])) : matchValue_1_3;
-        }
-        else {
-            return matchValue_3;
-        }
-    });
-    p_19 = ((tupledArg_11) => {
+    p_7 = ((tupledArg_3) => {
         let this$;
-        const s_9 = tupledArg_11[1];
-        const matchValue_4 = Result_MapError((tupledArg_12) => ParseError_sort(tupledArg_12[0], tupledArg_12[1]), p_16([void 0, s_9]));
-        return (matchValue_4.tag === 1) ? (new FSharpResult$2(0, [[void 0, s_9, matchValue_4.fields[0][1]]])) : (new FSharpResult$2(1, [[singleton([(this$ = s_9, new Position(this$.startLine, this$.startColumn)), singleton(new ErrorType(2, ["notFollowedBy failed"]))]), matchValue_4.fields[0][2]]]));
+        const s_3 = tupledArg_3[1];
+        const matchValue_2 = Result_MapError((tupledArg_4) => ParseError_sort(tupledArg_4[0], tupledArg_4[1]), p_4([void 0, s_3]));
+        return (matchValue_2.tag === 1) ? (new FSharpResult$2(0, [[void 0, s_3, matchValue_2.fields[0][1]]])) : (new FSharpResult$2(1, [[singleton([(this$ = s_3, new Position(this$.startLine, this$.startColumn)), singleton(new ErrorType(2, ["notFollowedBy failed"]))]), matchValue_2.fields[0][2]]]));
     });
-    sep = ((tupledArg_14) => {
-        let state_21, s_12, this$_1, index, this$_2, start_1, finish_1, len, line, column, clo, clo_1, this$_3;
-        const matchValue_7 = Result_MapError((tupledArg_15) => ParseError_sort(tupledArg_15[0], tupledArg_15[1]), p_19([void 0, tupledArg_14[1]]));
-        if (matchValue_7.tag === 0) {
-            const matchValue_1_4 = Result_MapError((tupledArg_16) => ParseError_sort(tupledArg_16[0], tupledArg_16[1]), (state_21 = (void 0), (s_12 = matchValue_7.fields[0][1], (((this$_1 = s_12, (index = 0, ((index < 0) ? true : (index >= this$_1.length)) ? "￿" : this$_1.underlying[this$_1.startIndex + index]))) === "\n") ? (new FSharpResult$2(0, [[void 0, (this$_2 = s_12, (start_1 = 1, (finish_1 = ((this$_2.length - 1) | 0), (((start_1 >= 0) && (start_1 <= this$_2.length)) && (finish_1 < max(comparePrimitives, start_1, this$_2.length))) ? ((len = (max(comparePrimitives, 0, (finish_1 - start_1) + 1) | 0), (line = this$_2.startLine, (column = this$_2.startColumn, ((() => {
+    sep = ((tupledArg_6) => {
+        let state_10, s_6, this$_1, index, this$_2, start_1, finish_1, len, line, column, clo, clo_1, this$_3;
+        const matchValue_5 = Result_MapError((tupledArg_7) => ParseError_sort(tupledArg_7[0], tupledArg_7[1]), p_7([void 0, tupledArg_6[1]]));
+        if (matchValue_5.tag === 0) {
+            const matchValue_1_1 = Result_MapError((tupledArg_8) => ParseError_sort(tupledArg_8[0], tupledArg_8[1]), (state_10 = (void 0), (s_6 = matchValue_5.fields[0][1], (((this$_1 = s_6, (index = 0, ((index < 0) ? true : (index >= this$_1.length)) ? "￿" : this$_1.underlying[this$_1.startIndex + index]))) === "\n") ? (new FSharpResult$2(0, [[void 0, (this$_2 = s_6, (start_1 = 1, (finish_1 = ((this$_2.length - 1) | 0), (((start_1 >= 0) && (start_1 <= this$_2.length)) && (finish_1 < max(comparePrimitives, start_1, this$_2.length))) ? ((len = (max(comparePrimitives, 0, (finish_1 - start_1) + 1) | 0), (line = this$_2.startLine, (column = this$_2.startColumn, ((() => {
                 for (let i_1 = 0; i_1 <= (start_1 - 1); i_1++) {
                     if (this$_2.underlying[this$_2.startIndex + i_1] === "\n") {
                         line = ((line + 1) | 0);
@@ -932,44 +850,44 @@ const pElseIf = (() => {
                         column = ((column + 1) | 0);
                     }
                 }
-            })(), new StringSegment(this$_2.startIndex + start_1, len, this$_2.underlying, line, column)))))) : ((clo = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1 = clo(start_1), clo_1(finish_1))))))), state_21]])) : (new FSharpResult$2(1, [[singleton([(this$_3 = s_12, new Position(this$_3.startLine, this$_3.startColumn)), singleton(new ErrorType(0, ["newline"]))]), state_21]])))));
-            return (matchValue_1_4.tag === 0) ? (new FSharpResult$2(0, [[matchValue_1_4.fields[0][0], matchValue_1_4.fields[0][1], matchValue_1_4.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_4.fields[0]]));
+            })(), new StringSegment(this$_2.startIndex + start_1, len, this$_2.underlying, line, column)))))) : ((clo = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1 = clo(start_1), clo_1(finish_1))))))), state_10]])) : (new FSharpResult$2(1, [[singleton([(this$_3 = s_6, new Position(this$_3.startLine, this$_3.startColumn)), singleton(new ErrorType(0, ["newline"]))]), state_10]])))));
+            return (matchValue_1_1.tag === 0) ? (new FSharpResult$2(0, [[matchValue_1_1.fields[0][0], matchValue_1_1.fields[0][1], matchValue_1_1.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_1.fields[0]]));
         }
         else {
-            return new FSharpResult$2(1, [matchValue_7.fields[0]]);
+            return new FSharpResult$2(1, [matchValue_5.fields[0]]);
         }
     });
     const resultFromState = reverse;
     const resultForEmptySequence = empty;
-    const p_24 = pBlock;
-    const go = (acc_mut, tupledArg_17_mut) => {
+    const p_12 = pBlock;
+    const go = (acc_mut, tupledArg_9_mut) => {
         go:
         while (true) {
-            const acc = acc_mut, tupledArg_17 = tupledArg_17_mut;
-            const s_15 = tupledArg_17[1];
-            const matchValue_8 = Result_MapError((tupledArg_18) => ParseError_sort(tupledArg_18[0], tupledArg_18[1]), sep([tupledArg_17[0], s_15]));
-            if (matchValue_8.tag === 0) {
-                const s_1_3 = matchValue_8.fields[0][1];
-                const matchValue_1_5 = Result_MapError((tupledArg_19) => ParseError_sort(tupledArg_19[0], tupledArg_19[1]), p_24([matchValue_8.fields[0][2], s_1_3]));
-                if (matchValue_1_5.tag === 0) {
-                    acc_mut = cons(matchValue_1_5.fields[0][0], acc);
-                    tupledArg_17_mut = [matchValue_1_5.fields[0][2], matchValue_1_5.fields[0][1]];
+            const acc = acc_mut, tupledArg_9 = tupledArg_9_mut;
+            const s_9 = tupledArg_9[1];
+            const matchValue_6 = Result_MapError((tupledArg_10) => ParseError_sort(tupledArg_10[0], tupledArg_10[1]), sep([tupledArg_9[0], s_9]));
+            if (matchValue_6.tag === 0) {
+                const s_1_2 = matchValue_6.fields[0][1];
+                const matchValue_1_2 = Result_MapError((tupledArg_11) => ParseError_sort(tupledArg_11[0], tupledArg_11[1]), p_12([matchValue_6.fields[0][2], s_1_2]));
+                if (matchValue_1_2.tag === 0) {
+                    acc_mut = cons(matchValue_1_2.fields[0][0], acc);
+                    tupledArg_9_mut = [matchValue_1_2.fields[0][2], matchValue_1_2.fields[0][1]];
                     continue go;
                 }
                 else {
-                    const state_3_1 = matchValue_1_5.fields[0][1];
-                    return new FSharpResult$2(0, [[resultFromState(acc), s_1_3, state_3_1]]);
+                    const state_3_1 = matchValue_1_2.fields[0][1];
+                    return new FSharpResult$2(0, [[resultFromState(acc), s_1_2, state_3_1]]);
                 }
             }
             else {
-                return new FSharpResult$2(0, [[resultFromState(acc), s_15, matchValue_8.fields[0][1]]]);
+                return new FSharpResult$2(0, [[resultFromState(acc), s_9, matchValue_6.fields[0][1]]]);
             }
             break;
         }
     };
-    p_28 = ((tupledArg_1_1) => {
+    p_16 = ((tupledArg_1_1) => {
         const s_3_1 = tupledArg_1_1[1];
-        const matchValue_2_1 = Result_MapError((tupledArg_20) => ParseError_sort(tupledArg_20[0], tupledArg_20[1]), p_24([tupledArg_1_1[0], s_3_1]));
+        const matchValue_2_1 = Result_MapError((tupledArg_12) => ParseError_sort(tupledArg_12[0], tupledArg_12[1]), p_12([tupledArg_1_1[0], s_3_1]));
         if (matchValue_2_1.tag === 0) {
             return go(singleton(matchValue_2_1.fields[0][0]), [matchValue_2_1.fields[0][2], matchValue_2_1.fields[0][1]]);
         }
@@ -978,230 +896,95 @@ const pElseIf = (() => {
             return (resultForEmptySequence == null) ? (new FSharpResult$2(1, [[matchValue_2_1.fields[0][0], state_6_1]])) : (new FSharpResult$2(0, [[(resultForEmptySequence == null) ? defaultOf() : resultForEmptySequence(), s_3_1, state_6_1]]));
         }
     });
-    let p_32;
-    const p_29 = CharParsers_spaces();
-    p_32 = ((tupledArg_21) => {
-        const matchValue_9 = Result_MapError((tupledArg_22) => ParseError_sort(tupledArg_22[0], tupledArg_22[1]), p_29([void 0, tupledArg_21[1]]));
-        return (matchValue_9.tag === 0) ? (new FSharpResult$2(0, [[empty(), matchValue_9.fields[0][1], matchValue_9.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_9.fields[0]]));
+    let p_20;
+    const p_17 = CharParsers_spaces();
+    p_20 = ((tupledArg_13) => {
+        const matchValue_7 = Result_MapError((tupledArg_14) => ParseError_sort(tupledArg_14[0], tupledArg_14[1]), p_17([void 0, tupledArg_13[1]]));
+        return (matchValue_7.tag === 0) ? (new FSharpResult$2(0, [[empty(), matchValue_7.fields[0][1], matchValue_7.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_7.fields[0]]));
     });
-    p_35 = ((tupledArg_23) => {
-        const s_19 = tupledArg_23[1];
-        const matchValue_10 = Result_MapError((tupledArg_24) => ParseError_sort(tupledArg_24[0], tupledArg_24[1]), p_28([void 0, s_19]));
+    pIfBody = ((tupledArg_15) => {
+        const s_13 = tupledArg_15[1];
+        const matchValue_8 = Result_MapError((tupledArg_16) => ParseError_sort(tupledArg_16[0], tupledArg_16[1]), p_16([void 0, s_13]));
+        if (matchValue_8.tag === 1) {
+            const matchValue_1_3 = Result_MapError((tupledArg_17) => ParseError_sort(tupledArg_17[0], tupledArg_17[1]), p_20([matchValue_8.fields[0][1], s_13]));
+            return (matchValue_1_3.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_8.fields[0][0], matchValue_1_3.fields[0][0]), matchValue_1_3.fields[0][1]]])) : matchValue_1_3;
+        }
+        else {
+            return matchValue_8;
+        }
+    });
+    let p1_6;
+    const p_23 = pKeyWordWithCond("if:");
+    let p_27;
+    const p_24 = pKeyWord("if:");
+    p_27 = ((tupledArg_18) => {
+        const matchValue_9 = Result_MapError((tupledArg_19) => ParseError_sort(tupledArg_19[0], tupledArg_19[1]), p_24([void 0, tupledArg_18[1]]));
+        return (matchValue_9.tag === 0) ? (new FSharpResult$2(0, [[new Sequence(0, [""]), matchValue_9.fields[0][1], matchValue_9.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_9.fields[0]]));
+    });
+    p1_6 = ((tupledArg_20) => {
+        const s_17 = tupledArg_20[1];
+        const matchValue_10 = Result_MapError((tupledArg_21) => ParseError_sort(tupledArg_21[0], tupledArg_21[1]), p_23([void 0, s_17]));
         if (matchValue_10.tag === 1) {
-            const matchValue_1_6 = Result_MapError((tupledArg_25) => ParseError_sort(tupledArg_25[0], tupledArg_25[1]), p_32([matchValue_10.fields[0][1], s_19]));
-            return (matchValue_1_6.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_10.fields[0][0], matchValue_1_6.fields[0][0]), matchValue_1_6.fields[0][1]]])) : matchValue_1_6;
+            const matchValue_1_4 = Result_MapError((tupledArg_22) => ParseError_sort(tupledArg_22[0], tupledArg_22[1]), p_27([matchValue_10.fields[0][1], s_17]));
+            return (matchValue_1_4.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_10.fields[0][0], matchValue_1_4.fields[0][0]), matchValue_1_4.fields[0][1]]])) : matchValue_1_4;
         }
         else {
             return matchValue_10;
         }
     });
-    p_38 = ((tupledArg_26) => {
-        const matchValue_11 = Result_MapError((tupledArg_27) => ParseError_sort(tupledArg_27[0], tupledArg_27[1]), p_7([void 0, tupledArg_26[1]]));
-        if (matchValue_11.tag === 0) {
-            const matchValue_1_7 = Result_MapError((tupledArg_28) => ParseError_sort(tupledArg_28[0], tupledArg_28[1]), p_35([matchValue_11.fields[0][2], matchValue_11.fields[0][1]]));
-            return (matchValue_1_7.tag === 0) ? (new FSharpResult$2(0, [[new ElseIf(matchValue_11.fields[0][0], filter((_arg_3) => ((_arg_3.tag === 10) ? (!(_arg_3.fields[0].fields[0] === "")) : true), matchValue_1_7.fields[0][0])), matchValue_1_7.fields[0][1], matchValue_1_7.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_7.fields[0]]));
-        }
-        else {
-            return new FSharpResult$2(1, [matchValue_11.fields[0]]);
-        }
-    });
-    return (tupledArg_29) => {
-        const matchValue_12 = Result_MapError((tupledArg_30) => ParseError_sort(tupledArg_30[0], tupledArg_30[1]), p_38([void 0, tupledArg_29[1]]));
-        return (matchValue_12.tag === 0) ? (new FSharpResult$2(0, [[new Block(2, [matchValue_12.fields[0][0]]), matchValue_12.fields[0][1], matchValue_12.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_12.fields[0]]));
-    };
-})();
-
-export const pIfBody = (() => {
-    let p_18;
-    let sep;
-    let p_9;
-    let p_6;
-    const p_2 = pKeyWord("endif:");
-    const p_3 = pKeyWord("else:");
-    p_6 = ((tupledArg_3) => {
-        const s_3 = tupledArg_3[1];
-        const matchValue_2 = Result_MapError((tupledArg_4) => ParseError_sort(tupledArg_4[0], tupledArg_4[1]), p_2([void 0, s_3]));
-        if (matchValue_2.tag === 1) {
-            const matchValue_1_1 = Result_MapError((tupledArg_5) => ParseError_sort(tupledArg_5[0], tupledArg_5[1]), p_3([matchValue_2.fields[0][1], s_3]));
-            return (matchValue_1_1.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_2.fields[0][0], matchValue_1_1.fields[0][0]), matchValue_1_1.fields[0][1]]])) : matchValue_1_1;
-        }
-        else {
-            return matchValue_2;
-        }
-    });
-    p_9 = ((tupledArg_6) => {
-        let this$;
-        const s_5 = tupledArg_6[1];
-        const matchValue_3 = Result_MapError((tupledArg_7) => ParseError_sort(tupledArg_7[0], tupledArg_7[1]), p_6([void 0, s_5]));
-        return (matchValue_3.tag === 1) ? (new FSharpResult$2(0, [[void 0, s_5, matchValue_3.fields[0][1]]])) : (new FSharpResult$2(1, [[singleton([(this$ = s_5, new Position(this$.startLine, this$.startColumn)), singleton(new ErrorType(2, ["notFollowedBy failed"]))]), matchValue_3.fields[0][2]]]));
-    });
-    sep = ((tupledArg_9) => {
-        let state_14, s_8, this$_1, index, this$_2, start_1, finish_1, len, line, column, clo, clo_1, this$_3;
-        const matchValue_6 = Result_MapError((tupledArg_10) => ParseError_sort(tupledArg_10[0], tupledArg_10[1]), p_9([void 0, tupledArg_9[1]]));
-        if (matchValue_6.tag === 0) {
-            const matchValue_1_2 = Result_MapError((tupledArg_11) => ParseError_sort(tupledArg_11[0], tupledArg_11[1]), (state_14 = (void 0), (s_8 = matchValue_6.fields[0][1], (((this$_1 = s_8, (index = 0, ((index < 0) ? true : (index >= this$_1.length)) ? "￿" : this$_1.underlying[this$_1.startIndex + index]))) === "\n") ? (new FSharpResult$2(0, [[void 0, (this$_2 = s_8, (start_1 = 1, (finish_1 = ((this$_2.length - 1) | 0), (((start_1 >= 0) && (start_1 <= this$_2.length)) && (finish_1 < max(comparePrimitives, start_1, this$_2.length))) ? ((len = (max(comparePrimitives, 0, (finish_1 - start_1) + 1) | 0), (line = this$_2.startLine, (column = this$_2.startColumn, ((() => {
-                for (let i_1 = 0; i_1 <= (start_1 - 1); i_1++) {
-                    if (this$_2.underlying[this$_2.startIndex + i_1] === "\n") {
-                        line = ((line + 1) | 0);
-                        column = 0;
-                    }
-                    else {
-                        column = ((column + 1) | 0);
-                    }
-                }
-            })(), new StringSegment(this$_2.startIndex + start_1, len, this$_2.underlying, line, column)))))) : ((clo = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1 = clo(start_1), clo_1(finish_1))))))), state_14]])) : (new FSharpResult$2(1, [[singleton([(this$_3 = s_8, new Position(this$_3.startLine, this$_3.startColumn)), singleton(new ErrorType(0, ["newline"]))]), state_14]])))));
-            return (matchValue_1_2.tag === 0) ? (new FSharpResult$2(0, [[matchValue_1_2.fields[0][0], matchValue_1_2.fields[0][1], matchValue_1_2.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_2.fields[0]]));
-        }
-        else {
-            return new FSharpResult$2(1, [matchValue_6.fields[0]]);
-        }
-    });
-    const resultFromState = reverse;
-    const resultForEmptySequence = empty;
-    const p_14 = (tupledArg) => {
-        const s_1 = tupledArg[1];
-        const matchValue = Result_MapError((tupledArg_1) => ParseError_sort(tupledArg_1[0], tupledArg_1[1]), pElseIf([void 0, s_1]));
-        if (matchValue.tag === 1) {
-            const matchValue_1 = Result_MapError((tupledArg_2) => ParseError_sort(tupledArg_2[0], tupledArg_2[1]), pBlock([matchValue.fields[0][1], s_1]));
-            if (matchValue_1.tag === 1) {
-                return new FSharpResult$2(1, [[append(matchValue.fields[0][0], matchValue_1.fields[0][0]), matchValue_1.fields[0][1]]]);
-            }
-            else {
-                return matchValue_1;
-            }
-        }
-        else {
-            return matchValue;
-        }
-    };
-    const go = (acc_mut, tupledArg_12_mut) => {
-        go:
-        while (true) {
-            const acc = acc_mut, tupledArg_12 = tupledArg_12_mut;
-            const s_11 = tupledArg_12[1];
-            const matchValue_7 = Result_MapError((tupledArg_13) => ParseError_sort(tupledArg_13[0], tupledArg_13[1]), sep([tupledArg_12[0], s_11]));
-            if (matchValue_7.tag === 0) {
-                const s_1_2 = matchValue_7.fields[0][1];
-                const matchValue_1_3 = Result_MapError((tupledArg_14) => ParseError_sort(tupledArg_14[0], tupledArg_14[1]), p_14([matchValue_7.fields[0][2], s_1_2]));
-                if (matchValue_1_3.tag === 0) {
-                    acc_mut = cons(matchValue_1_3.fields[0][0], acc);
-                    tupledArg_12_mut = [matchValue_1_3.fields[0][2], matchValue_1_3.fields[0][1]];
-                    continue go;
-                }
-                else {
-                    const state_3_1 = matchValue_1_3.fields[0][1];
-                    return new FSharpResult$2(0, [[resultFromState(acc), s_1_2, state_3_1]]);
-                }
-            }
-            else {
-                return new FSharpResult$2(0, [[resultFromState(acc), s_11, matchValue_7.fields[0][1]]]);
-            }
-            break;
-        }
-    };
-    p_18 = ((tupledArg_1_1) => {
-        const s_3_1 = tupledArg_1_1[1];
-        const matchValue_2_1 = Result_MapError((tupledArg_15) => ParseError_sort(tupledArg_15[0], tupledArg_15[1]), p_14([tupledArg_1_1[0], s_3_1]));
-        if (matchValue_2_1.tag === 0) {
-            return go(singleton(matchValue_2_1.fields[0][0]), [matchValue_2_1.fields[0][2], matchValue_2_1.fields[0][1]]);
-        }
-        else {
-            const state_6_1 = matchValue_2_1.fields[0][1];
-            return (resultForEmptySequence == null) ? (new FSharpResult$2(1, [[matchValue_2_1.fields[0][0], state_6_1]])) : (new FSharpResult$2(0, [[(resultForEmptySequence == null) ? defaultOf() : resultForEmptySequence(), s_3_1, state_6_1]]));
-        }
-    });
-    let p_22;
-    const p_19 = CharParsers_spaces();
-    p_22 = ((tupledArg_16) => {
-        const matchValue_8 = Result_MapError((tupledArg_17) => ParseError_sort(tupledArg_17[0], tupledArg_17[1]), p_19([void 0, tupledArg_16[1]]));
-        return (matchValue_8.tag === 0) ? (new FSharpResult$2(0, [[empty(), matchValue_8.fields[0][1], matchValue_8.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_8.fields[0]]));
-    });
-    return (tupledArg_18) => {
-        const s_15 = tupledArg_18[1];
-        const matchValue_9 = Result_MapError((tupledArg_19) => ParseError_sort(tupledArg_19[0], tupledArg_19[1]), p_18([void 0, s_15]));
-        if (matchValue_9.tag === 1) {
-            const matchValue_1_4 = Result_MapError((tupledArg_20) => ParseError_sort(tupledArg_20[0], tupledArg_20[1]), p_22([matchValue_9.fields[0][1], s_15]));
-            return (matchValue_1_4.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_9.fields[0][0], matchValue_1_4.fields[0][0]), matchValue_1_4.fields[0][1]]])) : matchValue_1_4;
-        }
-        else {
-            return matchValue_9;
-        }
-    };
-})();
-
-const pIf = (() => {
-    let p1_3;
-    const p = pKeyWordWithCond("if:");
-    let p_4;
-    const p_1 = pKeyWord("if:");
-    p_4 = ((tupledArg) => {
-        const matchValue = Result_MapError((tupledArg_1) => ParseError_sort(tupledArg_1[0], tupledArg_1[1]), p_1([void 0, tupledArg[1]]));
-        return (matchValue.tag === 0) ? (new FSharpResult$2(0, [[new Sequence(0, [""]), matchValue.fields[0][1], matchValue.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue.fields[0]]));
-    });
-    p1_3 = ((tupledArg_2) => {
-        const s_3 = tupledArg_2[1];
-        const matchValue_1 = Result_MapError((tupledArg_3) => ParseError_sort(tupledArg_3[0], tupledArg_3[1]), p([void 0, s_3]));
-        if (matchValue_1.tag === 1) {
-            const matchValue_1_1 = Result_MapError((tupledArg_4) => ParseError_sort(tupledArg_4[0], tupledArg_4[1]), p_4([matchValue_1.fields[0][1], s_3]));
-            return (matchValue_1_1.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_1.fields[0][0], matchValue_1_1.fields[0][0]), matchValue_1_1.fields[0][1]]])) : matchValue_1_1;
-        }
-        else {
-            return matchValue_1;
-        }
-    });
     let p4;
-    let p_20;
-    const p_9 = CharParsers_spaces();
-    let p_17;
-    let p_13;
-    const p_10 = pKeyWordWithCond("endif:");
-    p_13 = ((tupledArg_7) => {
-        const matchValue_3 = Result_MapError((tupledArg_8) => ParseError_sort(tupledArg_8[0], tupledArg_8[1]), p_10([void 0, tupledArg_7[1]]));
-        return (matchValue_3.tag === 0) ? (new FSharpResult$2(0, [[void matchValue_3.fields[0][0], matchValue_3.fields[0][1], matchValue_3.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_3.fields[0]]));
+    let p_43;
+    const p_32 = CharParsers_spaces();
+    let p_40;
+    let p_36;
+    const p_33 = pKeyWordWithCond("endif:");
+    p_36 = ((tupledArg_25) => {
+        const matchValue_12 = Result_MapError((tupledArg_26) => ParseError_sort(tupledArg_26[0], tupledArg_26[1]), p_33([void 0, tupledArg_25[1]]));
+        return (matchValue_12.tag === 0) ? (new FSharpResult$2(0, [[void matchValue_12.fields[0][0], matchValue_12.fields[0][1], matchValue_12.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_12.fields[0]]));
     });
-    p_17 = ((tupledArg_10) => {
-        let tupledArg_9, str_1, state_14, s_9, length, this$, start_1, finish_1, len, line, column, clo, clo_1, this$_1;
-        const s_12 = tupledArg_10[1];
-        const matchValue_5 = Result_MapError((tupledArg_11) => ParseError_sort(tupledArg_11[0], tupledArg_11[1]), p_13([void 0, s_12]));
-        if (matchValue_5.tag === 1) {
-            const matchValue_1_2 = Result_MapError((tupledArg_12) => ParseError_sort(tupledArg_12[0], tupledArg_12[1]), (tupledArg_9 = [matchValue_5.fields[0][1], s_12], (str_1 = "endif:", (state_14 = tupledArg_9[0], (s_9 = tupledArg_9[1], StringSegmentModule_startsWith(str_1, s_9) ? (new FSharpResult$2(0, [[void 0, (length = (str_1.length | 0), (this$ = s_9, (start_1 = (length | 0), (finish_1 = ((this$.length - 1) | 0), (((start_1 >= 0) && (start_1 <= this$.length)) && (finish_1 < max(comparePrimitives, start_1, this$.length))) ? ((len = (max(comparePrimitives, 0, (finish_1 - start_1) + 1) | 0), (line = this$.startLine, (column = this$.startColumn, ((() => {
-                for (let i = 0; i <= (start_1 - 1); i++) {
-                    if (this$.underlying[this$.startIndex + i] === "\n") {
-                        line = ((line + 1) | 0);
-                        column = 0;
+    p_40 = ((tupledArg_28) => {
+        let tupledArg_27, str_1, state_41, s_23, length_2, this$_4, start_1_1, finish_1_1, len_1, line_1, column_1, clo_2, clo_1_1, this$_5;
+        const s_26 = tupledArg_28[1];
+        const matchValue_14 = Result_MapError((tupledArg_29) => ParseError_sort(tupledArg_29[0], tupledArg_29[1]), p_36([void 0, s_26]));
+        if (matchValue_14.tag === 1) {
+            const matchValue_1_5 = Result_MapError((tupledArg_30) => ParseError_sort(tupledArg_30[0], tupledArg_30[1]), (tupledArg_27 = [matchValue_14.fields[0][1], s_26], (str_1 = "endif:", (state_41 = tupledArg_27[0], (s_23 = tupledArg_27[1], StringSegmentModule_startsWith(str_1, s_23) ? (new FSharpResult$2(0, [[void 0, (length_2 = (str_1.length | 0), (this$_4 = s_23, (start_1_1 = (length_2 | 0), (finish_1_1 = ((this$_4.length - 1) | 0), (((start_1_1 >= 0) && (start_1_1 <= this$_4.length)) && (finish_1_1 < max(comparePrimitives, start_1_1, this$_4.length))) ? ((len_1 = (max(comparePrimitives, 0, (finish_1_1 - start_1_1) + 1) | 0), (line_1 = this$_4.startLine, (column_1 = this$_4.startColumn, ((() => {
+                for (let i_2 = 0; i_2 <= (start_1_1 - 1); i_2++) {
+                    if (this$_4.underlying[this$_4.startIndex + i_2] === "\n") {
+                        line_1 = ((line_1 + 1) | 0);
+                        column_1 = 0;
                     }
                     else {
-                        column = ((column + 1) | 0);
+                        column_1 = ((column_1 + 1) | 0);
                     }
                 }
-            })(), new StringSegment(this$.startIndex + start_1, len, this$.underlying, line, column)))))) : ((clo = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1 = clo(start_1), clo_1(finish_1)))))))), state_14]])) : (new FSharpResult$2(1, [[singleton([(this$_1 = s_9, new Position(this$_1.startLine, this$_1.startColumn)), singleton(new ErrorType(0, [("\'" + str_1) + "\'"]))]), state_14]])))))));
-            return (matchValue_1_2.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_5.fields[0][0], matchValue_1_2.fields[0][0]), matchValue_1_2.fields[0][1]]])) : matchValue_1_2;
+            })(), new StringSegment(this$_4.startIndex + start_1_1, len_1, this$_4.underlying, line_1, column_1)))))) : ((clo_2 = toFail(printf("Index was out of range (GetSlice(%i, %i)).")), (clo_1_1 = clo_2(start_1_1), clo_1_1(finish_1_1)))))))), state_41]])) : (new FSharpResult$2(1, [[singleton([(this$_5 = s_23, new Position(this$_5.startLine, this$_5.startColumn)), singleton(new ErrorType(0, [("\'" + str_1) + "\'"]))]), state_41]])))))));
+            return (matchValue_1_5.tag === 1) ? (new FSharpResult$2(1, [[append(matchValue_14.fields[0][0], matchValue_1_5.fields[0][0]), matchValue_1_5.fields[0][1]]])) : matchValue_1_5;
         }
         else {
-            return matchValue_5;
+            return matchValue_14;
         }
     });
-    p_20 = ((tupledArg_13) => {
-        const matchValue_6 = Result_MapError((tupledArg_14) => ParseError_sort(tupledArg_14[0], tupledArg_14[1]), p_9([void 0, tupledArg_13[1]]));
-        if (matchValue_6.tag === 0) {
-            const matchValue_1_3 = Result_MapError((tupledArg_15) => ParseError_sort(tupledArg_15[0], tupledArg_15[1]), p_17([matchValue_6.fields[0][2], matchValue_6.fields[0][1]]));
-            return (matchValue_1_3.tag === 0) ? (new FSharpResult$2(0, [[matchValue_1_3.fields[0][0], matchValue_1_3.fields[0][1], matchValue_1_3.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_3.fields[0]]));
+    p_43 = ((tupledArg_31) => {
+        const matchValue_15 = Result_MapError((tupledArg_32) => ParseError_sort(tupledArg_32[0], tupledArg_32[1]), p_32([void 0, tupledArg_31[1]]));
+        if (matchValue_15.tag === 0) {
+            const matchValue_1_6 = Result_MapError((tupledArg_33) => ParseError_sort(tupledArg_33[0], tupledArg_33[1]), p_40([matchValue_15.fields[0][2], matchValue_15.fields[0][1]]));
+            return (matchValue_1_6.tag === 0) ? (new FSharpResult$2(0, [[matchValue_1_6.fields[0][0], matchValue_1_6.fields[0][1], matchValue_1_6.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_6.fields[0]]));
         }
         else {
-            return new FSharpResult$2(1, [matchValue_6.fields[0]]);
+            return new FSharpResult$2(1, [matchValue_15.fields[0]]);
         }
     });
     const label = blockNotClosedError("if");
-    p4 = ((tupledArg_16) => {
-        let this$_2;
-        const s_16 = tupledArg_16[1];
-        const matchValue_7 = Result_MapError((tupledArg_17) => ParseError_sort(tupledArg_17[0], tupledArg_17[1]), p_20([void 0, s_16]));
-        return (matchValue_7.tag === 1) ? (new FSharpResult$2(1, [[singleton([(this$_2 = s_16, new Position(this$_2.startLine, this$_2.startColumn)), singleton(new ErrorType(0, [label]))]), matchValue_7.fields[0][1]]])) : matchValue_7;
+    p4 = ((tupledArg_34) => {
+        let this$_6;
+        const s_30 = tupledArg_34[1];
+        const matchValue_16 = Result_MapError((tupledArg_35) => ParseError_sort(tupledArg_35[0], tupledArg_35[1]), p_43([void 0, s_30]));
+        return (matchValue_16.tag === 1) ? (new FSharpResult$2(1, [[singleton([(this$_6 = s_30, new Position(this$_6.startLine, this$_6.startColumn)), singleton(new ErrorType(0, [label]))]), matchValue_16.fields[0][1]]])) : matchValue_16;
     });
     return (tupledArg_4_1) => {
-        let tupledArg_3_1, matchValue_10, tupledArg_2_1, matchValue_9, s_5, matchValue_2, tupledArg_1_1, matchValue_8, x_7, x2;
-        const matchValue_11 = Result_MapError((tupledArg_25) => ParseError_sort(tupledArg_25[0], tupledArg_25[1]), p1_3([tupledArg_4_1[0], tupledArg_4_1[1]]));
-        return (matchValue_11.tag === 0) ? Result_MapError((tupledArg_26) => ParseError_sort(tupledArg_26[0], tupledArg_26[1]), (tupledArg_3_1 = [matchValue_11.fields[0][2], matchValue_11.fields[0][1]], (matchValue_10 = Result_MapError((tupledArg_23) => ParseError_sort(tupledArg_23[0], tupledArg_23[1]), pIfBody([tupledArg_3_1[0], tupledArg_3_1[1]])), (matchValue_10.tag === 0) ? Result_MapError((tupledArg_24) => ParseError_sort(tupledArg_24[0], tupledArg_24[1]), (tupledArg_2_1 = [matchValue_10.fields[0][2], matchValue_10.fields[0][1]], (matchValue_9 = Result_MapError((tupledArg_21) => ParseError_sort(tupledArg_21[0], tupledArg_21[1]), (s_5 = tupledArg_2_1[1], (matchValue_2 = Result_MapError((tupledArg_6) => ParseError_sort(tupledArg_6[0], tupledArg_6[1]), pElse([void 0, s_5])), (matchValue_2.tag === 1) ? (new FSharpResult$2(0, [[void 0, s_5, matchValue_2.fields[0][1]]])) : (new FSharpResult$2(0, [[matchValue_2.fields[0][0], matchValue_2.fields[0][1], matchValue_2.fields[0][2]]]))))), (matchValue_9.tag === 0) ? Result_MapError((tupledArg_22) => ParseError_sort(tupledArg_22[0], tupledArg_22[1]), (tupledArg_1_1 = [matchValue_9.fields[0][2], matchValue_9.fields[0][1]], (matchValue_8 = Result_MapError((tupledArg_19) => ParseError_sort(tupledArg_19[0], tupledArg_19[1]), p4([tupledArg_1_1[0], tupledArg_1_1[1]])), (matchValue_8.tag === 0) ? Result_MapError((tupledArg_20) => ParseError_sort(tupledArg_20[0], tupledArg_20[1]), ((x_7 = ((x2 = matchValue_10.fields[0][0], new If(matchValue_11.fields[0][0], filter((_arg_2) => ((_arg_2.tag === 10) ? (!(_arg_2.fields[0].fields[0] === "")) : (!(_arg_2.tag === 2))), x2), toList(delay(() => collect((x_6) => ((x_6.tag === 2) ? singleton_1(x_6) : empty_1()), x2))), matchValue_9.fields[0][0]))), (tupledArg_18) => (new FSharpResult$2(0, [[x_7, tupledArg_18[1], tupledArg_18[0]]]))))([matchValue_8.fields[0][2], matchValue_8.fields[0][1]])) : (new FSharpResult$2(1, [matchValue_8.fields[0]]))))) : (new FSharpResult$2(1, [matchValue_9.fields[0]]))))) : (new FSharpResult$2(1, [matchValue_10.fields[0]]))))) : (new FSharpResult$2(1, [matchValue_11.fields[0]]));
+        let tupledArg_3_1, matchValue_19, tupledArg_2_1, matchValue_18, s_19, matchValue_11, tupledArg_1_2, matchValue_17, x_11;
+        const matchValue_20 = Result_MapError((tupledArg_43) => ParseError_sort(tupledArg_43[0], tupledArg_43[1]), p1_6([tupledArg_4_1[0], tupledArg_4_1[1]]));
+        return (matchValue_20.tag === 0) ? Result_MapError((tupledArg_44) => ParseError_sort(tupledArg_44[0], tupledArg_44[1]), (tupledArg_3_1 = [matchValue_20.fields[0][2], matchValue_20.fields[0][1]], (matchValue_19 = Result_MapError((tupledArg_41) => ParseError_sort(tupledArg_41[0], tupledArg_41[1]), pIfBody([tupledArg_3_1[0], tupledArg_3_1[1]])), (matchValue_19.tag === 0) ? Result_MapError((tupledArg_42) => ParseError_sort(tupledArg_42[0], tupledArg_42[1]), (tupledArg_2_1 = [matchValue_19.fields[0][2], matchValue_19.fields[0][1]], (matchValue_18 = Result_MapError((tupledArg_39) => ParseError_sort(tupledArg_39[0], tupledArg_39[1]), (s_19 = tupledArg_2_1[1], (matchValue_11 = Result_MapError((tupledArg_24) => ParseError_sort(tupledArg_24[0], tupledArg_24[1]), pElse([void 0, s_19])), (matchValue_11.tag === 1) ? (new FSharpResult$2(0, [[void 0, s_19, matchValue_11.fields[0][1]]])) : (new FSharpResult$2(0, [[matchValue_11.fields[0][0], matchValue_11.fields[0][1], matchValue_11.fields[0][2]]]))))), (matchValue_18.tag === 0) ? Result_MapError((tupledArg_40) => ParseError_sort(tupledArg_40[0], tupledArg_40[1]), (tupledArg_1_2 = [matchValue_18.fields[0][2], matchValue_18.fields[0][1]], (matchValue_17 = Result_MapError((tupledArg_37) => ParseError_sort(tupledArg_37[0], tupledArg_37[1]), p4([tupledArg_1_2[0], tupledArg_1_2[1]])), (matchValue_17.tag === 0) ? Result_MapError((tupledArg_38) => ParseError_sort(tupledArg_38[0], tupledArg_38[1]), ((x_11 = (new If(matchValue_20.fields[0][0], filter((arg_3) => (!isEmptySequence(arg_3)), matchValue_19.fields[0][0]), matchValue_18.fields[0][0])), (tupledArg_36) => (new FSharpResult$2(0, [[x_11, tupledArg_36[1], tupledArg_36[0]]]))))([matchValue_17.fields[0][2], matchValue_17.fields[0][1]])) : (new FSharpResult$2(1, [matchValue_17.fields[0]]))))) : (new FSharpResult$2(1, [matchValue_18.fields[0]]))))) : (new FSharpResult$2(1, [matchValue_19.fields[0]]))))) : (new FSharpResult$2(1, [matchValue_20.fields[0]]));
     };
 })();
 
@@ -1342,7 +1125,7 @@ const pThread = (() => {
     return (tupledArg_24) => {
         const matchValue_11 = Result_MapError((tupledArg_25) => ParseError_sort(tupledArg_25[0], tupledArg_25[1]), p_28([void 0, tupledArg_24[1]]));
         return (matchValue_11.tag === 0) ? (new FSharpResult$2(0, [[filter((_arg_2) => {
-            if (_arg_2.tag === 10) {
+            if (_arg_2.tag === 9) {
                 return !(_arg_2.fields[0].fields[0] === "");
             }
             else {
@@ -1549,7 +1332,7 @@ function pAnyLoop(keyword, kind, withEndCond) {
     p_13 = ((tupledArg_7) => {
         let s_6;
         const matchValue_3 = Result_MapError((tupledArg_8) => ParseError_sort(tupledArg_8[0], tupledArg_8[1]), p_10([void 0, tupledArg_7[1]]));
-        return (matchValue_3.tag === 0) ? (new FSharpResult$2(0, [[(s_6 = matchValue_3.fields[0][0], (isEmptySequence(new Block(10, [s_6])) && withEndCond) ? (void 0) : s_6), matchValue_3.fields[0][1], matchValue_3.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_3.fields[0]]));
+        return (matchValue_3.tag === 0) ? (new FSharpResult$2(0, [[(s_6 = matchValue_3.fields[0][0], (isEmptySequence(new Block(9, [s_6])) && withEndCond) ? (void 0) : s_6), matchValue_3.fields[0][1], matchValue_3.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_3.fields[0]]));
     });
     loopEndCond = ((tupledArg_9) => {
         let this$;
@@ -1731,13 +1514,13 @@ const pCaption = (() => {
     };
 })();
 
-const pBreak = pSingleLineInstruction("break:", (arg) => (new Block(4, [arg])));
+const pBreak = pSingleLineInstruction("break:", (arg) => (new Block(3, [arg])));
 
-const pExit = pSingleLineInstruction("exit:", (arg) => (new Block(9, [arg])));
+const pExit = pSingleLineInstruction("exit:", (arg) => (new Block(8, [arg])));
 
-const pCall = pSingleLineInstruction("call:", (arg) => (new Block(7, [arg])));
+const pCall = pSingleLineInstruction("call:", (arg) => (new Block(6, [arg])));
 
-const pReturn = pSingleLineInstruction("return:", (arg) => (new Block(8, [arg])));
+const pReturn = pSingleLineInstruction("return:", (arg) => (new Block(7, [arg])));
 
 pBlockRef.contents = (() => {
     let p;
@@ -1831,13 +1614,13 @@ pBlockRef.contents = (() => {
                 return (matchValue_1.tag === 0) ? (new FSharpResult$2(0, [[new Block(1, [matchValue_1.fields[0][0]]), matchValue_1.fields[0][1], matchValue_1.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1.fields[0]]));
             }, (tupledArg_3) => {
                 const matchValue_2 = Result_MapError((tupledArg_4) => ParseError_sort(tupledArg_4[0], tupledArg_4[1]), pLoop([void 0, tupledArg_3[1]]));
-                return (matchValue_2.tag === 0) ? (new FSharpResult$2(0, [[new Block(3, [matchValue_2.fields[0][0]]), matchValue_2.fields[0][1], matchValue_2.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_2.fields[0]]));
+                return (matchValue_2.tag === 0) ? (new FSharpResult$2(0, [[new Block(2, [matchValue_2.fields[0][0]]), matchValue_2.fields[0][1], matchValue_2.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_2.fields[0]]));
             }, (tupledArg_5) => {
                 const matchValue_3 = Result_MapError((tupledArg_6) => ParseError_sort(tupledArg_6[0], tupledArg_6[1]), pConcurrent([void 0, tupledArg_5[1]]));
-                return (matchValue_3.tag === 0) ? (new FSharpResult$2(0, [[new Block(5, [matchValue_3.fields[0][0]]), matchValue_3.fields[0][1], matchValue_3.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_3.fields[0]]));
+                return (matchValue_3.tag === 0) ? (new FSharpResult$2(0, [[new Block(4, [matchValue_3.fields[0][0]]), matchValue_3.fields[0][1], matchValue_3.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_3.fields[0]]));
             }, pCall, pCaption, pBreak, pExit, pReturn, (tupledArg_7) => {
                 const matchValue_4 = Result_MapError((tupledArg_8) => ParseError_sort(tupledArg_8[0], tupledArg_8[1]), pSequence([void 0, tupledArg_7[1]]));
-                return (matchValue_4.tag === 0) ? (new FSharpResult$2(0, [[new Block(10, [matchValue_4.fields[0][0]]), matchValue_4.fields[0][1], matchValue_4.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_4.fields[0]]));
+                return (matchValue_4.tag === 0) ? (new FSharpResult$2(0, [[new Block(9, [matchValue_4.fields[0][0]]), matchValue_4.fields[0][1], matchValue_4.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_4.fields[0]]));
             }])))));
             return (matchValue_1_2.tag === 0) ? (new FSharpResult$2(0, [[matchValue_1_2.fields[0][0], matchValue_1_2.fields[0][1], matchValue_1_2.fields[0][2]]])) : (new FSharpResult$2(1, [matchValue_1_2.fields[0]]));
         }

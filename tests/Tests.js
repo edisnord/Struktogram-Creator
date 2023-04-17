@@ -32,7 +32,7 @@ export const parserSingleLineBlocksTests = Test_testList("Parser single line blo
     return Test_TestCaseBuilder__Run_3A5B6456(builder$0040_1, Test_TestCaseBuilder__Delay_1505(builder$0040_1, () => {
         let copyOfStruct_1, arg_6, arg_1_1, clo_6, clo_1_1, clo_2_1, clo_3_1, clo_4_1, clo_5_1;
         const actual_1 = extractResult("break: test");
-        const expected_1 = singleton(new Block(4, ["test"]));
+        const expected_1 = singleton(new Block(3, ["test"]));
         const msg_1 = "Break";
         if (equals(actual_1, expected_1) ? true : (!(new Function("try {return this===window;}catch(e){ return false;}"))())) {
             assertEqual(actual_1, expected_1, msg_1);
@@ -50,7 +50,7 @@ export const parserSingleLineBlocksTests = Test_testList("Parser single line blo
     return Test_TestCaseBuilder__Run_3A5B6456(builder$0040_2, Test_TestCaseBuilder__Delay_1505(builder$0040_2, () => {
         let copyOfStruct_2, arg_7, arg_1_2, clo_7, clo_1_2, clo_2_2, clo_3_2, clo_4_2, clo_5_2;
         const actual_2 = extractResult("return: test");
-        const expected_2 = singleton(new Block(8, ["test"]));
+        const expected_2 = singleton(new Block(7, ["test"]));
         const msg_2 = "Return";
         if (equals(actual_2, expected_2) ? true : (!(new Function("try {return this===window;}catch(e){ return false;}"))())) {
             assertEqual(actual_2, expected_2, msg_2);
@@ -68,7 +68,7 @@ export const parserSingleLineBlocksTests = Test_testList("Parser single line blo
     return Test_TestCaseBuilder__Run_3A5B6456(builder$0040_3, Test_TestCaseBuilder__Delay_1505(builder$0040_3, () => {
         let copyOfStruct_3, arg_8, arg_1_3, clo_8, clo_1_3, clo_2_3, clo_3_3, clo_4_3, clo_5_3;
         const actual_3 = extractResult("exit: test");
-        const expected_3 = singleton(new Block(9, ["test"]));
+        const expected_3 = singleton(new Block(8, ["test"]));
         const msg_3 = "Exit";
         if (equals(actual_3, expected_3) ? true : (!(new Function("try {return this===window;}catch(e){ return false;}"))())) {
             assertEqual(actual_3, expected_3, msg_3);
@@ -86,7 +86,7 @@ export const parserSingleLineBlocksTests = Test_testList("Parser single line blo
     return Test_TestCaseBuilder__Run_3A5B6456(builder$0040_4, Test_TestCaseBuilder__Delay_1505(builder$0040_4, () => {
         let copyOfStruct_4, arg_9, arg_1_4, clo_9, clo_1_4, clo_2_4, clo_3_4, clo_4_4, clo_5_4;
         const actual_4 = extractResult("call: test");
-        const expected_4 = singleton(new Block(7, ["test"]));
+        const expected_4 = singleton(new Block(6, ["test"]));
         const msg_4 = "Call";
         if (equals(actual_4, expected_4) ? true : (!(new Function("try {return this===window;}catch(e){ return false;}"))())) {
             assertEqual(actual_4, expected_4, msg_4);
