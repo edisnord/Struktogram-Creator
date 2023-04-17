@@ -92,6 +92,7 @@ limitations under the License.
 }
 
 .struct-sequence, struct-block, struct-loop, struct-iteration, struct-repeat, .struct-call, .struct-break, struct-comment {
+    word-break: break-all;
     display: block;
     margin-top: 0;
     margin-bottom: 0;
@@ -124,12 +125,13 @@ struct-repeat, struct-concurrent, .struct-sequence, .struct-decision, struct-sel
     position: relative;
     display: block;
     width: 100%;
-    max-width: 20em;
+    border-right: 0;
 }
 
 .decision-branches{
     background-color: grey;
     display: flex;
+    border-right: 1px solid;
     justify-content: space-between;
 }
 
@@ -232,9 +234,33 @@ struct-comment {
     border-right: 1px solid var(--structoview-line);
 }
 
-.struct-diagram > *:last-child:not(.struct-caption):not(.nothingness) {
+.struct-diagram > *:last-child:not(.struct-caption),
+.if-else-branch > *:last-child:not(.struct-caption)
+{
     border-bottom: 1px solid var(--structoview-line);
 }
+
+.decision-graphic {
+    background-color: white;
+    border-left: 1px solid;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    width: 100%;
+    height: 100%;
+    max-height: 60px;
+    /*min-width: 15em;*/
+    margin-bottom: -7px;
+}
+
+.if-else-branch {
+    /*width: 50%;*/
+    /*border-top: 1px solid;*/
+    /*border-left: 1px solid;*/
+    flex-basis: 50%;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
 
 struct-select > struct-case:not(:first-child) {
     border-left: 1px solid var(--structoview-line);

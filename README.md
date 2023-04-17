@@ -20,6 +20,7 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
    7. [ ] Comment(and multiline)
    8. [X] Sequence
    9. [ ] Multiline sequence
+   10. [ ] Select
 2. [X] Connect parser to diagram generator
 3. [ ] Implement diagram generator blocks
    1. [X] Caption block
@@ -27,12 +28,12 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
    3. [X] Exit block
    4. [X] Call block
    5. [X] Break block
-   6. [ ] If block
-      1. [ ] Proper rendering of else-ifs
+   6. [X] If block
    7. [ ] For block
    8. [ ] Loop block
    9. [ ] Concurrent block
    10. [ ] Comment block
+   11. [ ] Select
 4. [ ] Add syntax highlighting for Ace
 5. [ ] Add theming for diagram and page colors
 

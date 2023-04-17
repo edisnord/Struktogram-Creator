@@ -57,13 +57,17 @@ let DesicisonGraphic (condition: string) =
                       svg.strokeWidth 1 ]
                 Svg.text
                     [ svg.custom ("x", "1%")
-                      svg.custom ("y", "95%")
+                      svg.custom ("y", "90%")
                       svg.className "small-text"
+                      svg.dominantBaseline.middle
+                      svg.textAnchor.startOfText
                       svg.text "true" ]
                 Svg.text
-                    [ svg.custom ("x", "92%")
-                      svg.custom ("y", "95%")
+                    [ svg.custom ("x", "99%")
+                      svg.custom ("y", "90%")
                       svg.className "small-text"
+                      svg.dominantBaseline.middle
+                      svg.textAnchor.endOfText
                       svg.text "false" ] ] ]
 
 [<ReactComponent>]
