@@ -1,12 +1,19 @@
+import { FSharpRef } from "../fable_modules/fable-library.4.0.1/Types.js";
+import { createObj, defaultOf } from "../fable_modules/fable-library.4.0.1/Util.js";
 import { createElement } from "react";
 import React from "react";
 import { join } from "../fable_modules/fable-library.4.0.1/String.js";
-import { React_functionComponent_Z336EF691 } from "../fable_modules/Feliz.2.6.0/React.fs.js";
-import { defaultOf } from "../fable_modules/fable-library.4.0.1/Util.js";
-import { defaultArg } from "../fable_modules/fable-library.4.0.1/Option.js";
-import { cons, map, tryFind } from "../fable_modules/fable-library.4.0.1/List.js";
-import { Block } from "./Parser.js";
+import { cons, tryFind, empty, map, singleton, isEmpty, ofArray } from "../fable_modules/fable-library.4.0.1/List.js";
 import { Interop_reactApi } from "../fable_modules/Feliz.2.6.0/Interop.fs.js";
+import { map as map_1, defaultArg } from "../fable_modules/fable-library.4.0.1/Option.js";
+import { defaultOf as defaultOf_1 } from "../fable_modules/fable-library.4.0.1/Util.js";
+import { React_functionComponent_Z336EF691 } from "../fable_modules/Feliz.2.6.0/React.fs.js";
+
+export function declare() {
+    return new FSharpRef(defaultOf());
+}
+
+export const astNodeToComponent = declare();
 
 export function Caption(captionInputProps) {
     const caption = captionInputProps.caption;
@@ -49,75 +56,100 @@ export function Call(callInputProps) {
     });
 }
 
-export function astNodeToComponent(_arg) {
-    let matchResult, s;
-    switch (_arg.tag) {
-        case 7: {
-            matchResult = 0;
-            s = _arg.fields[0];
-            break;
-        }
-        case 8: {
-            matchResult = 0;
-            s = _arg.fields[0];
-            break;
-        }
-        case 3: {
-            matchResult = 1;
-            break;
-        }
-        case 9: {
-            matchResult = 2;
-            break;
-        }
-        case 6: {
-            matchResult = 3;
-            break;
-        }
-        default: matchResult = 4}
-    switch (matchResult) {
-        case 0: {
-            return createElement(Return, {
-                text: s,
-                exit: true,
-            });
-        }
-        case 1: {
-            return createElement(Return, {
-                text: _arg.fields[0],
-                exit: false,
-            });
-        }
-        case 2: {
-            return createElement(Sequence, {
-                text: _arg.fields[0].fields[0],
-            });
-        }
-        case 3: {
-            return createElement(Call, {
-                text: _arg.fields[0],
-            });
-        }
-        case 4: {
-            return React_functionComponent_Z336EF691(defaultOf)();
-        }
+export function DesicisonGraphic(desicisonGraphicInputProps) {
+    let elements;
+    const condition = desicisonGraphicInputProps.condition;
+    return createElement("svg", createObj(ofArray([["className", "decision-graphic"], (elements = ofArray([createElement("text", {
+        fontSize: 16,
+        x: "50%",
+        y: "30%",
+        dominantBaseline: "middle",
+        textAnchor: "middle",
+        children: condition,
+    }), createElement("line", {
+        x1: "0%",
+        y1: "0%",
+        x2: "50%",
+        y2: "100%",
+        fill: "none",
+        stroke: "#000",
+        strokeWidth: 1,
+    }), createElement("line", {
+        x1: "100%",
+        y1: "0%",
+        x2: "50%",
+        y2: "100%",
+        fill: "none",
+        stroke: "#000",
+        strokeWidth: 1,
+    }), createElement("text", {
+        x: "1%",
+        y: "90%",
+        className: "small-text",
+        dominantBaseline: "middle",
+        textAnchor: "start",
+        children: "true",
+    }), createElement("text", {
+        x: "99%",
+        y: "90%",
+        className: "small-text",
+        dominantBaseline: "middle",
+        textAnchor: "end",
+        children: "false",
+    })]), ["children", Interop_reactApi.Children.toArray(Array.from(elements))])])));
+}
+
+export function IfElseBranchContents(_arg) {
+    if (isEmpty(_arg)) {
+        return singleton(createElement("h1", {
+            width: 100 + "%",
+            height: 100 + "%",
+            fontSize: 20,
+            dangerouslySetInnerHTML: {
+                __html: "𝝓",
+            },
+            className: "phi",
+        }));
+    }
+    else {
+        return map(astNodeToComponent.contents, _arg);
     }
 }
 
-export function Diagram(diagramInputProps) {
-    const blocks = diagramInputProps.blocks;
-    const patternInput = defaultArg(tryFind((_arg) => (_arg.tag === 0), blocks), new Block(0, ["Nassi–Shneiderman diagram"]));
-    if (patternInput.tag === 0) {
-        const children = cons(createElement(Caption, {
-            caption: patternInput.fields[0],
-        }), map(astNodeToComponent, blocks));
-        return createElement("div", {
-            className: join(" ", ["struct-diagram"]),
-            children: Interop_reactApi.Children.toArray(Array.from(children)),
-        });
-    }
-    else {
-        throw new Error("Match failure");
-    }
+export function If(_arg) {
+    let elems_3, elems_2, elems, elems_1;
+    return createElement("div", createObj(ofArray([["className", "struct-if"], (elems_3 = [createElement(DesicisonGraphic, {
+        condition: _arg.condition.fields[0],
+    }), createElement("div", createObj(ofArray([["className", "decision-branches"], (elems_2 = [createElement("div", createObj(ofArray([["className", "if-else-branch"], (elems = IfElseBranchContents(_arg.blocks), ["children", Interop_reactApi.Children.toArray(Array.from(elems))])]))), createElement("div", createObj(ofArray([["className", "if-else-branch"], (elems_1 = IfElseBranchContents(defaultArg(_arg.opt_else, empty())), ["children", Interop_reactApi.Children.toArray(Array.from(elems_1))])])))], ["children", Interop_reactApi.Children.toArray(Array.from(elems_2))])])))], ["children", Interop_reactApi.Children.toArray(Array.from(elems_3))])])));
 }
+
+export function Diagram(diagramInputProps) {
+    const width = diagramInputProps.width;
+    const blocks = diagramInputProps.blocks;
+    const children = cons(defaultArg(map_1((_arg) => ((_arg.tag === 0) ? createElement(Caption, {
+        caption: _arg.fields[0],
+    }) : defaultOf_1()), tryFind((_arg_1) => (_arg_1.tag === 0), blocks)), defaultOf_1()), map(astNodeToComponent.contents, blocks));
+    return createElement("div", {
+        className: join(" ", ["struct-diagram"]),
+        style: {
+            width: width + "%",
+        },
+        children: Interop_reactApi.Children.toArray(Array.from(children)),
+    });
+}
+
+astNodeToComponent.contents = ((_arg) => ((_arg.tag === 7) ? createElement(Return, {
+    text: _arg.fields[0],
+    exit: true,
+}) : ((_arg.tag === 8) ? createElement(Return, {
+    text: _arg.fields[0],
+    exit: true,
+}) : ((_arg.tag === 3) ? createElement(Return, {
+    text: _arg.fields[0],
+    exit: false,
+}) : ((_arg.tag === 9) ? createElement(Sequence, {
+    text: _arg.fields[0].fields[0],
+}) : ((_arg.tag === 6) ? createElement(Call, {
+    text: _arg.fields[0],
+}) : ((_arg.tag === 1) ? createElement(If, _arg.fields[0]) : React_functionComponent_Z336EF691(defaultOf_1)())))))));
 

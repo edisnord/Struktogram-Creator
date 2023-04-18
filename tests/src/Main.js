@@ -1,3 +1,4 @@
+import { createAtom } from "../fable_modules/fable-library.4.0.1/Util.js";
 import { createRoot } from "react-dom/client";
 import * as ace_builds from "ace-builds";
 import { isEmptySequence, parseSource } from "./Parser.js";
@@ -6,12 +7,19 @@ import { empty, singleton, collect, delay, toList } from "../fable_modules/fable
 import { toConsole } from "../fable_modules/fable-library.4.0.1/String.js";
 import { createElement } from "react";
 import { Diagram } from "./DisplayDiagram.js";
+import { parse } from "../fable_modules/fable-library.4.0.1/Int32.js";
 
 export const codeArea = document.getElementById("codeEditor");
 
 export const createButton = document.getElementById("createButton");
 
-export const root = createRoot(document.getElementById("feliz-app"));
+export const hideButton = document.getElementById("clearButton");
+
+export const saveImageButton = document.getElementById("saveImageButton");
+
+export const slider = document.getElementById("myRange");
+
+export let root = createAtom(createRoot(document.getElementById("feliz-app")));
 
 export const editor = ace_builds.edit(codeArea);
 
@@ -32,7 +40,13 @@ export function parseCode() {
 createButton.addEventListener("click", (_arg) => {
     const arg = createElement(Diagram, {
         blocks: parseCode(),
+        width: parse(slider.value, 511, false, 32),
     });
-    root.render(arg);
+    root().render(arg);
+});
+
+hideButton.addEventListener("click", (_arg) => {
+    root().unmount();
+    root(createRoot(document.getElementById("feliz-app")));
 });
 
