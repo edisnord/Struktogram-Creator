@@ -118,7 +118,8 @@ let Diagram (blocks: Block list, width: int) =
         :: List.map astNodeToComponent.Value blocks
 
     Html.div
-        [ prop.classes [ "struct-diagram" ]
+        [ prop.id "main-diagram"
+          prop.classes [ "struct-diagram" ]
           prop.style [ style.width (length.percent width) ]
           prop.children children ]
 

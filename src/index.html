@@ -18,7 +18,7 @@
     <button id="createButton" style="margin-right: auto" class="button-13">Create struktogram</button>
     <div class="slidecontainer">
         <label for="myRange"></label><input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-        <div style="margin-top: -10px; text-align: center">Diagram width</div> 
+        <div style="margin-top: -10px; text-align: center">Diagram width</div>
     </div>
     <button id="clearButton" class="button-13">Hide struktogram</button>
     <button id="savePngButton" class="button-13">Export struktogram PNG</button>
@@ -35,21 +35,36 @@
 
     document.getElementById("savePngButton")
         .addEventListener("click",
-            () => domtoimage
-                .toBlob(document.getElementById('feliz-app'))
-                .then(blob => saveAs(blob, 'struktogram.png'))
+            () => {
+                let diagram = document.getElementById('main-diagram');
+                if (diagram) {
+                    domtoimage
+                        .toBlob(document.getElementById('main-diagram'))
+                        .then(blob => saveAs(blob, 'struktogram.png'))
+                } else {
+                    alert("Diagram not created yet from source")
+                }
+            }
         )
 
     document.getElementById("saveSvgButton")
         .addEventListener("click",
-            () => domtoimage.toSvg(document.getElementById('feliz-app'))
-                .then((dataUrl) => {
-                    var link = document.createElement('a');
-                    link.download = 'struktogram.svg';
-                    link.href = dataUrl;
-                    link.click();
-                    link.remove();
-                }))
+            () => {
+                let diagram = document.getElementById('main-diagram');
+                if (diagram) {
+                    domtoimage.toSvg(document.getElementById('main-diagram'))
+                        .then((dataUrl) => {
+                            var link = document.createElement('a');
+                            link.download = 'struktogram.svg';
+                            link.href = dataUrl;
+                            link.click();
+                            link.remove();
+                        })
+
+                } else {
+                    alert("Diagram not created yet from source")
+                }
+            })
 </script>
 </body>
 </html>
