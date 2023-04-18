@@ -20,7 +20,8 @@ let hideButton =
 let saveImageButton =
     document.getElementById ("saveImageButton") :?> Browser.Types.HTMLButtonElement
 
-
+let slider =
+    document.getElementById ("myRange") :?> Browser.Types.HTMLInputElement
 
 let mutable root = ReactDOM.createRoot (document.getElementById "feliz-app")
 
@@ -39,7 +40,7 @@ let public parseCode () =
         value
     | Error errorValue -> failwith <| errorValue.ToString()
 
-createButton.addEventListener ("click", (fun _ -> root.render <| DisplayDiagram.Diagram(parseCode ())))
+createButton.addEventListener ("click", (fun _ -> root.render <| DisplayDiagram.Diagram(parseCode (), int slider.value)))
 
 hideButton.addEventListener (
     "click",

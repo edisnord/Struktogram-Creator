@@ -70,6 +70,17 @@ let DesicisonGraphic (condition: string) =
                       svg.textAnchor.endOfText
                       svg.text "false" ] ] ]
 
+let IfElseBranchContents =
+    function
+    | [] ->
+        [ Html.h1
+              [ prop.width (length.percent 100)
+                prop.height (length.percent 100)
+                prop.fontSize 20
+                prop.innerHtml "𝝓"
+                prop.className "phi" ] ]
+    | blocks -> (List.map astNodeToComponent.Value blocks)
+
 [<ReactComponent>]
 let If
     { condition = Text condition
@@ -83,27 +94,33 @@ let If
                 Html.div
                     [ prop.className "decision-branches"
                       prop.children
-                          [ Html.div
-                                [ prop.className "if-else-branch"
-                                  prop.children (List.map astNodeToComponent.Value blocks) ]
+                          [ Html.div [ prop.className "if-else-branch"; prop.children (IfElseBranchContents blocks) ]
                             Html.div
                                 [ prop.className "if-else-branch"
-                                  prop.children (List.map astNodeToComponent.Value (Option.defaultValue [] opt_else)) ] ] ] ] ]
+                                  prop.children (IfElseBranchContents(Option.defaultValue [] opt_else)) ] ] ] ] ]
 
 
 [<ReactComponent>]
-let Diagram (blocks: Block list) =
-    let caption = Option.map (function Block.Caption s -> Caption s
-                                     | _ -> Html.none)
-                             (List.tryFind
-                                 (function
-                                 | (Block.Caption _) -> true
-                                 | _ -> false)
-                                 blocks)
+let Diagram (blocks: Block list, width: int) =
+    let caption =
+        Option.map
+            (function
+            | Block.Caption s -> Caption s
+            | _ -> Html.none)
+            (List.tryFind
+                (function
+                | (Block.Caption _) -> true
+                | _ -> false)
+                blocks)
 
-    let children = Option.defaultValue Html.none caption :: List.map astNodeToComponent.Value blocks
+    let children =
+        Option.defaultValue Html.none caption
+        :: List.map astNodeToComponent.Value blocks
 
-    Html.div [ prop.classes [ "struct-diagram" ]; prop.children children ]
+    Html.div
+        [ prop.classes [ "struct-diagram" ]
+          prop.style [ style.width (length.percent width) ]
+          prop.children children ]
 
 
 astNodeToComponent.Value <-

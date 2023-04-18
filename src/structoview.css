@@ -224,10 +224,10 @@ struct-comment {
     border: 1px dotted gray;
     color: var(--structoview-text);
     font-family: sans-serif;
-    min-width: 20em;
+    min-width: 24em;
     line-height: 1.5em;
     padding: .5em;
-    background-color: var(--structoview-border);
+    background-color: lightgrey;
 }
 
 .struct-diagram > * {
@@ -235,7 +235,7 @@ struct-comment {
 }
 
 .struct-diagram > *:last-child:not(.struct-caption),
-.if-else-branch > *:last-child:not(.struct-caption)
+.if-else-branch > *:last-child:not(.struct-caption):not(.phi)
 {
     border-bottom: 1px solid var(--structoview-line);
 }
@@ -256,9 +256,22 @@ struct-comment {
     /*width: 50%;*/
     /*border-top: 1px solid;*/
     /*border-left: 1px solid;*/
+    display: flex;
+    min-height: 60px;
+    flex-direction: column;
     flex-basis: 50%;
     flex-grow: 1;
     flex-shrink: 0;
+}
+
+.phi {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 100%;
+    /*flex-grow: 1;*/
+    /*flex-shrink: 0;*/
+    /*flex-basis: 0%;*/
 }
 
 
