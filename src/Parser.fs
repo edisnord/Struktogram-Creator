@@ -98,20 +98,19 @@ let private pKeyWord kw =
 let private pElse: Parser<Else> =
     pKeyWord "else:"
     >>. skipNewline
-    >>. manyTill pBlock (followedBy ((pKeyWordWithCond "endif:") |>> ignore <|> eof)) <|> (spaces |>> fun _ -> [])
+    >>. manyTill (pBlock .>> skipNewline) (followedBy ((pKeyWordWithCond "endif:") |>> ignore <|> eof)) <|> (spaces |>> fun _ -> [])
     |>> List.filter (not << isEmptySequence)
 
 
 let private pIf =
     let pIfBody =
-        (sepEndBy pBlock (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:") >>. skipNewline))
+        (sepEndBy (pBlock .>> skipNewline) (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:")))
         <|> (spaces |>> fun _ -> [])
 
     pipe4
         (pKeyWordWithCond "if:" <|> (pKeyWord "if:" |>> fun _ -> Sequence.Text ""))
         pIfBody
-        ((opt pElse)
-         .>> notFollowedByL (pKeyWordWithCond "else") "else should not have a condition")
+        (opt pElse)
         (pKeyWordWithCond "endif:" <?> blockNotClosedError "if")
         (fun x1 x2 x3 _ ->
             { condition = x1
