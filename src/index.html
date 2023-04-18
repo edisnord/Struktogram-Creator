@@ -6,20 +6,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="./img/favicon-32x32.png" sizes="32x32"/>
     <link rel="shortcut icon" type="image/png" href="./img/favicon-16x16.png" sizes="16x16"/>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="structoview.css" />
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="structoview.css"/>
     <script type="module" src="./Parser.fs.js"></script>
 </head>
+
+
 <body>
 
 <div style='display: flex; height: 5vh'>
     <button id="createButton" style="margin-right: auto" class="button-13">Create struktogram</button>
     <button id="clearButton" class="button-13">Hide struktogram</button>
+    <button id="savePngButton" class="button-13">Export struktogram PNG</button>
+    <button id="saveSvgButton" class="button-13">Export struktogram SVG</button>
 </div>
 <div id="editorViewerContainer">
     <div id="codeEditor"></div>
     <div id="feliz-app" class="diagram"></div>
 </div>
 <script type="module" src="./Main.fs.js"></script>
+<script type="module">
+    import {saveAs} from 'file-saver';
+    import domtoimage from 'dom-to-image';
+
+    document.getElementById("savePngButton")
+        .addEventListener("click",
+            () => domtoimage
+                .toBlob(document.getElementById('feliz-app'))
+                .then(blob => saveAs(blob, 'struktogram.png'))
+        )
+
+    document.getElementById("saveSvgButton")
+        .addEventListener("click",
+            () => domtoimage.toSvg(document.getElementById('feliz-app'))
+                .then((dataUrl) => {
+                    var link = document.createElement('a');
+                    link.download = 'struktogram.svg';
+                    link.href = dataUrl;
+                    link.click();
+                    link.remove();
+                }))
+</script>
 </body>
 </html>

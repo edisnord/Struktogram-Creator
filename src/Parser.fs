@@ -63,42 +63,56 @@ let private keywords: Parser<unit> =
           skipString "exit:"
           skipString "return:" ]
 
+let private pCondition: Parser<Sequence> =
+    (manyChars (satisfy (isNoneOf "\n")) |>> Sequence.Text)
+    |>> (fun (Sequence.Text s) -> Sequence.Text <| s.Trim())
+
 let private pSequence =
+    let escape =
+        anyOf "<>" .>> opt eof
+        |>> function
+            | '<' -> "&lt"
+            | '>' -> "&gt"
+            | s -> string s
+
+    let normalSnippet =
+        many1Till
+            (manySatisfy (fun c -> c <> '\n' && c <> '<' && c <> '>' && c <> '\uffff'))
+            (followedBy (eof <|> (anyOf "<>\n" |>> ignore)))
+        .>> opt eof
+        |>> (Array.ofList >> System.String.Concat)
+
     notFollowedByL (spaces >>. keywords) "Keyword detected at start of sequence"
-    >>. (manyChars (satisfy (isNoneOf "\n")) |>> Sequence.Text)
+    >>. (stringsSepBy normalSnippet escape |>> Sequence.Text)
     |>> (fun (Sequence.Text s) -> Sequence.Text <| s.Trim())
 
 let private pKeyWordWithCond keyword =
-    spaces
-    >>. skipString keyword
-    >>. (skipSatisfy <| isAnyOf " \t")
-    >>. (pSequence <|> fail "Condition required")
+    spaces >>. skipString keyword >>. (pCondition <?> "Condition required")
     .>> (skipNewline <|> eof)
 
 let private pKeyWord kw =
     spaces >>. skipString kw
-    .>> (skipManyTill (anyOf " \t") <| followedBy (skipNewline <|> eof))
+    .>> skipManyTill (anyOf " \t") (followedBy (skipNewline <|> eof))
 
 
 let private pElse: Parser<Else> =
-    (pKeyWord "else:")
+    pKeyWord "else:"
     >>. skipNewline
-    >>. manyTill (pBlock .>> skipNewline) (followedBy (pKeyWord "endif:")) 
-    |>> List.filter (function
-        | Block.Sequence(Sequence.Text(el)) -> not (el.Equals "")
-        | _ -> true)
-    
+    >>. manyTill pBlock (followedBy ((pKeyWordWithCond "endif:") |>> ignore <|> eof)) <|> (spaces |>> fun _ -> [])
+    |>> List.filter (not << isEmptySequence)
+
 
 let private pIf =
     let pIfBody =
         (sepEndBy pBlock (notFollowedBy (pKeyWord "endif:" <|> pKeyWord "else:") >>. skipNewline))
         <|> (spaces |>> fun _ -> [])
+
     pipe4
         (pKeyWordWithCond "if:" <|> (pKeyWord "if:" |>> fun _ -> Sequence.Text ""))
         pIfBody
-        (opt pElse)
-        (spaces >>. ((pKeyWordWithCond "endif:" |>> ignore) <|> skipString "endif:")
-         <?> blockNotClosedError "if")
+        ((opt pElse)
+         .>> notFollowedByL (pKeyWordWithCond "else") "else should not have a condition")
+        (pKeyWordWithCond "endif:" <?> blockNotClosedError "if")
         (fun x1 x2 x3 _ ->
             { condition = x1
               blocks = List.filter (not << isEmptySequence) x2

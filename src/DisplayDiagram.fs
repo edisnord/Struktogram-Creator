@@ -93,16 +93,15 @@ let If
 
 [<ReactComponent>]
 let Diagram (blocks: Block list) =
-    let (Block.Caption caption) =
-        Option.defaultValue
-            (Block.Caption "Nassi–Shneiderman diagram")
-            (List.tryFind
-                (function
-                | (Block.Caption _) -> true
-                | _ -> false)
-                blocks)
+    let caption = Option.map (function Block.Caption s -> Caption s
+                                     | _ -> Html.none)
+                             (List.tryFind
+                                 (function
+                                 | (Block.Caption _) -> true
+                                 | _ -> false)
+                                 blocks)
 
-    let children = Caption caption :: List.map astNodeToComponent.Value blocks
+    let children = Option.defaultValue Html.none caption :: List.map astNodeToComponent.Value blocks
 
     Html.div [ prop.classes [ "struct-diagram" ]; prop.children children ]
 
