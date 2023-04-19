@@ -38,7 +38,7 @@ let public parseCode () =
 
         printfn $"{value}"
         value
-    | Error errorValue -> failwith <| errorValue.ToString()
+    | Error (a, b) -> failwith <| a.ToString() + "\n\n" + b.ToString()
 
 createButton.addEventListener ("click", (fun _ -> root.render <| DisplayDiagram.Diagram(parseCode (), int slider.value)))
 

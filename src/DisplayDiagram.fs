@@ -100,6 +100,32 @@ let If
                                   prop.children (IfElseBranchContents(Option.defaultValue [] opt_else)) ] ] ] ] ]
 
 
+
+[<ReactComponent>]
+let Loop
+    { kind = kind
+      opt_condition = condition
+      block = blocks
+      opt_end_condition = end_condition }
+    =
+
+    let styleClass, condition =
+        match kind, condition, end_condition with
+        | loops.For, Some(Text a), _ -> prop.className "struct-for", a
+        | loops.Loop, _, Some(Text a) -> prop.className "struct-loop", a
+
+    let loopCond =
+        React.functionComponent (fun () -> Html.div [ prop.id "loop-cond"; prop.children [ Sequence condition ] ])
+
+    Html.div
+        [ styleClass
+          prop.children (
+              match kind with
+              | loops.For -> loopCond() :: (List.map astNodeToComponent.Value blocks)
+              | loops.Loop -> List.append (List.map astNodeToComponent.Value blocks) [ loopCond() ]
+          ) ]
+
+
 [<ReactComponent>]
 let Diagram (blocks: Block list, width: int) =
     let caption =
@@ -132,4 +158,5 @@ astNodeToComponent.Value <-
     | Block.Sequence(Text s) -> (Sequence s)
     | Block.Call s -> Call s
     | Block.If b -> If b
+    | Block.Loop l -> Loop l
     | _ -> (React.functionComponent (fun () -> Html.none) ())
