@@ -1,42 +1,9 @@
-module App.Parser
+module App.Parser.Parsing
 
+open AST
 open Parsec
 
 type private Parser<'a> = Parser<'a, unit>
-
-type loops =
-    | For
-    | Loop
-
-type Sequence = Text of string
-
-and Block =
-    | Caption of string
-    | If of If
-    | Loop of Loop
-    | Break of string
-    | Concurrent of Concurrent
-    | Thread of Block list
-    | Call of string
-    | Return of string
-    | Exit of string
-    | Sequence of Sequence
-
-and Else = Block list
-
-and If =
-    { condition: Sequence
-      blocks: Block list
-      opt_else: Else option }
-
-
-and Loop =
-    { kind: loops
-      opt_condition: Sequence option
-      block: Block list
-      opt_end_condition: Sequence option }
-
-and Concurrent = { threads: Block list list }
 
 let public isEmptySequence =
     function
@@ -108,7 +75,8 @@ let private pIf =
         <|> (spaces |>> fun _ -> [])
 
     pipe4
-        ((pKeyWordWithCond "if:" <|> (pKeyWord "if:" |>> fun _ -> Sequence.Text "")) .>> skipNewline)
+        ((pKeyWordWithCond "if:" <|> (pKeyWord "if:" |>> fun _ -> Sequence.Text ""))
+         .>> skipNewline)
         pIfBody
         (opt pElse)
         (pKeyWordWithCond "endif:" <?> blockNotClosedError "if")
@@ -119,8 +87,8 @@ let private pIf =
 
 
 let private pThread =
-    skipManySatisfy (isAnyOf " \t") >>.
-    (pKeyWordWithCond "thread:" |>> fun _ -> printf "Entered thread")
+    skipManySatisfy (isAnyOf " \t")
+    >>. (pKeyWordWithCond "thread:" |>> fun _ -> printf "Entered thread")
     >>. skipNewline
     >>. sepEndBy
         ((pBlock

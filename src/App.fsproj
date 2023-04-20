@@ -9,10 +9,12 @@
       <Link>paket-files/Parsec.fs</Link>
     </Compile>
     <None Include="index.html" />
-    <Compile Include="Parser.fs" />
+    <Compile Include="Parser\AST.fs" />
+    <Compile Include="Parser\Parsing.fs" />
+    <Compile Include="Components\If.fs" />
+    <Compile Include="Components\SingleLine.fs" />
+    <Compile Include="Components\Loop.fs" />
     <Compile Include="DisplayDiagram.fs" />
-    <Compile Include="Extensions.fs" />
-    <Compile Include="Components.fs" />
     <Compile Include="Main.fs" />
     <Content Include="style.css" />
     <Content Include="structoview.css" />

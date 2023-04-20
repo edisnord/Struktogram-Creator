@@ -29,11 +29,11 @@ let editor: obj = ace?edit codeArea
 editor?setFontSize 20
 
 let public parseCode () =
-    match Parser.parseSource (editor?getValue ()) with
+    match Parser.Parsing.parseSource (editor?getValue ()) with
     | Ok(res, _, _) ->
         let value =
             [ for x in res do
-                  if (not <| Parser.isEmptySequence x) then
+                  if (not <| Parser.Parsing.isEmptySequence x) then
                       yield x ]
 
         printfn $"{value}"

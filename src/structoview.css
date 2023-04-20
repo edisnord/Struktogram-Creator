@@ -129,13 +129,6 @@ struct-concurrent {
     padding-left: 1.5em;
 }
 
-/*struct-iteration {*/
-/*    padding-top: 2em;*/
-/*}*/
-
-/*struct-loop {*/
-/*    padding-bottom: 2em;*/
-/*}*/
 
 .struct-comment {
     white-space: pre-line;
@@ -177,7 +170,7 @@ struct-concurrent {
 
 .if-else-branch {
     display: flex;
-    min-height: 60px;
+    /*min-height: 60px;*/
     flex-direction: column;
     flex-basis: 50%;
     flex-grow: 1;
@@ -221,78 +214,78 @@ struct-concurrent {
     left: .28em;
 }
 
-struct-concurrent:before, struct-concurrent:after,
-struct-concurrent > *:first-child:before,
-struct-concurrent > *:last-child:after {
-    position: absolute;
-    content: '';
-    border-top: 1px solid var(--structoview-line);
-    width: 3.2em;
-    transform-origin: top left;
-}
+/*struct-concurrent:before, struct-concurrent:after,*/
+/*struct-concurrent > *:first-child:before,*/
+/*struct-concurrent > *:last-child:after {*/
+/*    position: absolute;*/
+/*    content: '';*/
+/*    border-top: 1px solid var(--structoview-line);*/
+/*    width: 3.2em;*/
+/*    transform-origin: top left;*/
+/*}*/
 
-struct-concurrent:before {
-    transform: rotate(-45deg);
-}
+/*struct-concurrent:before {*/
+/*    transform: rotate(-45deg);*/
+/*}*/
 
-struct-concurrent:after {
-    top: 0;
-    right: -.91em;
-    transform: rotate(45deg);
-}
+/*struct-concurrent:after {*/
+/*    top: 0;*/
+/*    right: -.91em;*/
+/*    transform: rotate(45deg);*/
+/*}*/
 
-struct-concurrent > *:first-child:before {
-    transform: rotate(45deg);
-    bottom: -1px;
-    left: 0;
-}
+/*struct-concurrent > *:first-child:before {*/
+/*    transform: rotate(45deg);*/
+/*    bottom: -1px;*/
+/*    left: 0;*/
+/*}*/
 
-struct-concurrent > *:last-child:after {
-    transform: rotate(-45deg);
-    right: 0;
-    transform-origin: top right;
-    bottom: -2px;
-}
+/*struct-concurrent > *:last-child:after {*/
+/*    transform: rotate(-45deg);*/
+/*    right: 0;*/
+/*    transform-origin: top right;*/
+/*    bottom: -2px;*/
+/*}*/
 
-struct-concurrent {
-    overflow: hidden;
-}
+/*struct-concurrent {*/
+/*    overflow: hidden;*/
+/*}*/
 
-struct-concurrent > struct-block > * {
-    border-left: none !important;
-}
+/*struct-concurrent > struct-block > * {*/
+/*    border-left: none !important;*/
+/*}*/
 
-struct-concurrent > * {
-    position: relative;
-    border-bottom: 1px solid var(--structoview-line);
-}
+/*struct-concurrent > * {*/
+/*    position: relative;*/
+/*    border-bottom: 1px solid var(--structoview-line);*/
+/*}*/
 
-.struct-diagram.compactselect .struct-select {
-    display: flex;
-    flex-direction: column;
-    padding-left: 1.5em;
-}
+/*.struct-diagram.compactselect .struct-select {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    padding-left: 1.5em;*/
+/*}*/
 
-.struct-diagram.compactselect .struct-select:after {
-    text-align: left;
-    left: .25em;
-}
+/*.struct-diagram.compactselect .struct-select:after {*/
+/*    text-align: left;*/
+/*    left: .25em;*/
+/*}*/
 
-.struct-diagram.compactselect .struct-select > *:before {
-    background: none;
-}
+/*.struct-diagram.compactselect .struct-select > *:before {*/
+/*    background: none;*/
+/*}*/
 
-.struct-diagram.compactselect .struct-select > *:not(:first-child) {
-    margin-top: 1.5em;
-}
+/*.struct-diagram.compactselect .struct-select > *:not(:first-child) {*/
+/*    margin-top: 1.5em;*/
+/*}*/
 
-.struct-diagram.compactselect .struct-select > *:first-child {
-    border-left: 1px solid var(--structoview-line);
-}
+/*.struct-diagram.compactselect .struct-select > *:first-child {*/
+/*    border-left: 1px solid var(--structoview-line);*/
+/*}*/
 
-.struct-diagram.compactselect .struct-select > .struct-block:after {
-    right: unset;
-}
+/*.struct-diagram.compactselect .struct-select > .struct-block:after {*/
+/*    right: unset;*/
+/*}*/
 
 .struct-call {
     padding-left: 1em;
