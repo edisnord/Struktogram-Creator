@@ -29,8 +29,8 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
    4. [X] Call block
    5. [X] Break block
    6. [X] If block
-   7. [ ] For block
-   8. [ ] Loop block
+   7. [X] For block
+   8. [X] Loop block
    9. [ ] Concurrent block
    10. [ ] Comment block
    11. [ ] Select
