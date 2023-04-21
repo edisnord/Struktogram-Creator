@@ -26,10 +26,10 @@
 
 <div style='display: flex; row-gap: 20px; height: 5vh'>
     <button id="createButton" style="margin-right: auto" class="button-13">Create struktogram</button>
-    <input onclick="autoWidth()" type="checkbox" id="auto-width" name="auto-width" value="AutoWidth">
-    <label style="margin-top: auto; margin-bottom:auto;" for="auto-width">Auto width</label>
+    <input checked="true" onclick="autoWidth()" type="checkbox" id="auto-width" name="auto-width" value="AutoWidth">
+    <label style="margin-top: auto; margin-bottom:auto;" for="auto-width">Auto width(Disable if things overflow in If blocks)</label>
     <div class="slidecontainer">
-        <label for="myRange"></label><input type="range" min="1" max="100" value="30" class="slider" id="myRange">
+        <label for="myRange"></label><input disabled="true" type="range" min="1" max="100" value="30" class="slider" id="myRange">
         <div style="margin-top: -2px; text-align: center">Diagram width</div>
     </div>
     <button id="clearButton" class="button-13">Hide struktogram</button>
