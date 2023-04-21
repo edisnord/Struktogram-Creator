@@ -25,7 +25,7 @@ The app is now deployed on GitHub pages, so if you wish to use it check out [thi
    7. [ ] Comment(and multiline)
    8. [X] Sequence
    9. [ ] Multiline sequence
-   10. [ ] Select
+   10. [ ] Switch-case 
 2. [X] Connect parser to diagram generator
 3. [ ] Implement diagram generator blocks
    1. [X] Caption block
@@ -38,9 +38,9 @@ The app is now deployed on GitHub pages, so if you wish to use it check out [thi
    8. [X] Loop block
    9. [x] Concurrent block
    10. [ ] Comment block
-   11. [ ] Select
+   11. [ ] Switch-case 
 4. [ ] Add syntax highlighting for Ace
-5. [ ] Parser error reporting(use the console for now, that's where i print them)
+5. [ ] Parser error reporting(use the console for now, that's where I print syntax errors)
 6. [ ] Add theming for diagram and page colors
 
 ## Development
