@@ -31,7 +31,7 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
    6. [X] If block
    7. [X] For block
    8. [X] Loop block
-   9. [ ] Concurrent block
+   9. [x] Concurrent block
    10. [ ] Comment block
    11. [ ] Select
 4. [ ] Add syntax highlighting for Ace

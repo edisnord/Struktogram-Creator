@@ -14,6 +14,7 @@
     <Compile Include="Components\If.fs" />
     <Compile Include="Components\SingleLine.fs" />
     <Compile Include="Components\Loop.fs" />
+    <Compile Include="Components\Concurrent.fs" />
     <Compile Include="DisplayDiagram.fs" />
     <Compile Include="Main.fs" />
     <Content Include="style.css" />

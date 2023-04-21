@@ -22,6 +22,10 @@ let saveImageButton =
 
 let slider =
     document.getElementById ("myRange") :?> Browser.Types.HTMLInputElement
+ 
+
+let toggleAutoWidth =
+    document.getElementById ("auto-width") :?> Browser.Types.HTMLInputElement
 
 let mutable root = ReactDOM.createRoot (document.getElementById "feliz-app")
 
@@ -40,7 +44,8 @@ let public parseCode () =
         value
     | Error (a, b) -> failwith <| a.ToString() + "\n\n" + b.ToString()
 
-createButton.addEventListener ("click", (fun _ -> root.render <| DisplayDiagram.Diagram(parseCode (), int slider.value)))
+createButton.addEventListener ("click", (fun _ -> let width = if toggleAutoWidth.checked then "auto" else slider.value + "%"  
+                                                  root.render <| DisplayDiagram.Diagram(parseCode (), width)))
 
 hideButton.addEventListener (
     "click",

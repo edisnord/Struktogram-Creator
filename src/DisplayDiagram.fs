@@ -26,10 +26,11 @@ let rec astNodeToComponent =
                kind = l.kind
                end_condition = l.opt_end_condition
                mapper = astNodeToComponent |}
+    | Block.Concurrent concurrent -> App.Components.Concurrent.Concurrent (concurrent.threads, astNodeToComponent)
     | _ -> (React.functionComponent (fun () -> Html.none) ())
 
 [<ReactComponent>]
-let Diagram (blocks: Block list, width: int) =
+let Diagram (blocks: Block list, width: string) =
     let caption =
         Option.map
             (function
@@ -47,5 +48,5 @@ let Diagram (blocks: Block list, width: int) =
     Html.div
         [ prop.id "main-diagram"
           prop.classes [ "struct-diagram" ]
-          prop.style [ style.width (length.percent width) ]
+          prop.style [ style.custom("width", width) ]
           prop.children children ]

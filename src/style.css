@@ -12,17 +12,31 @@
 
 .slidecontainer {
     width: 10%; /* Width of the outside container */
+    display: block;
 }
 
 .slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
     appearance: none;
     width: 100%; /* Full-width */
     height: 25px; /* Specified height */
     background: #d3d3d3; /* Grey background */
     outline: none; /* Remove outline */
     opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-    transition: opacity .2s;
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;;
+    border-radius: 20px;
 }
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: darkcyan;
+    cursor: pointer;
+}
+
 
 .slider:hover {
     opacity: 1; /* Fully shown on mouse-over */
