@@ -2,6 +2,9 @@
 
 WIP Struktogram(Nassi-Shneiderman diagram) creator for the web, with syntax greatly inspired from github user [Nigjo's struktogramview](https://github.com/nigjo/structogramview/).
 This tool is being made with Parsec.fs for the language parsing, [Feliz](https://zaid-ajaj.github.io/Feliz) and [Fable](https://fable.io/)
+
+For a rundown on the app's language, please refer to the [wiki](https://github.com/edisnord/Struktogram-Creator/wiki) section of this repo
+
 ## Requirements to run on your own PC
 
 * [dotnet SDK](https://www.microsoft.com/net/download/core) v7.0 or higher (with dotnet CLI in path)
@@ -35,7 +38,8 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
    10. [ ] Comment block
    11. [ ] Select
 4. [ ] Add syntax highlighting for Ace
-5. [ ] Add theming for diagram and page colors
+5. [ ] Parser error reporting(use the console for now, that's where i print them)
+6. [ ] Add theming for diagram and page colors
 
 ## Development
 
