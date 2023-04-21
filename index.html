@@ -9,18 +9,30 @@
     
     
     
-  <script type="module" crossorigin src="/Struktogram-Creator/assets/index-f9a5dded.js"></script>
-  <link rel="stylesheet" href="/Struktogram-Creator/assets/index-c2c55d62.css">
+  <script type="module" crossorigin src="/Struktogram-Creator/assets/index-ac9bf5fd.js"></script>
+  <link rel="stylesheet" href="/Struktogram-Creator/assets/index-8722f19f.css">
 </head>
 
 
 <body>
+<script>
+    function autoWidth() {
+        if (document.getElementById("auto-width").checked) {
+            console.log("Disabled")
+            document.getElementById("myRange").disabled = true
+        } else {
+            document.getElementById("myRange").disabled = false
+        }
+    }
+</script>
 
 <div style='display: flex; row-gap: 20px; height: 5vh'>
     <button id="createButton" style="margin-right: auto" class="button-13">Create struktogram</button>
+    <input onclick="autoWidth()" type="checkbox" id="auto-width" name="auto-width" value="AutoWidth">
+    <label style="margin-top: auto; margin-bottom:auto;" for="auto-width">Auto width</label>
     <div class="slidecontainer">
-        <label for="myRange"></label><input type="range" min="1" max="100" value="50" class="slider" id="myRange">
-        <div style="margin-top: -10px; text-align: center">Diagram width</div>
+        <label for="myRange"></label><input type="range" min="1" max="100" value="30" class="slider" id="myRange">
+        <div style="margin-top: -2px; text-align: center">Diagram width</div>
     </div>
     <button id="clearButton" class="button-13">Hide struktogram</button>
     <button id="savePngButton" class="button-13">Export struktogram PNG</button>
