@@ -5,6 +5,8 @@ This tool is being made with Parsec.fs for the language parsing, [Feliz](https:/
 
 For a rundown on the app's language, please refer to the [wiki](https://github.com/edisnord/Struktogram-Creator/wiki) section of this repo
 
+The app is now deployed on GitHub pages, so if you wish to use it check out [this link](https://edisnord.github.io/Struktogram-Creator/)
+
 ## Requirements to run on your own PC
 
 * [dotnet SDK](https://www.microsoft.com/net/download/core) v7.0 or higher (with dotnet CLI in path)
