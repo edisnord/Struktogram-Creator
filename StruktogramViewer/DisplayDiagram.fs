@@ -1,8 +1,8 @@
-module DisplayDiagram
+module StruktogramViewer.DisplayDiagram
 
 open Feliz
-open App.Parser.AST
-open App.Components.SingleLine
+open Parser.AST
+open StruktogramViewer.Components.SingleLine
 
 let rec astNodeToComponent =
     function
@@ -14,19 +14,19 @@ let rec astNodeToComponent =
     | Block.If { condition = Text condition
                  blocks = blocks
                  opt_else = opt_else } ->
-        App.Components.If.If
+        StruktogramViewer.Components.If.If
             {| condition = condition
                blocks = blocks
                opt_else = opt_else
                mapper = astNodeToComponent |}
     | Block.Loop l ->
-        App.Components.Loop.Loop
+        StruktogramViewer.Components.Loop.Loop
             {| condition = l.opt_condition
                blocks = l.block
                kind = l.kind
                end_condition = l.opt_end_condition
                mapper = astNodeToComponent |}
-    | Block.Concurrent concurrent -> App.Components.Concurrent.Concurrent (concurrent.threads, astNodeToComponent)
+    | Block.Concurrent concurrent -> StruktogramViewer.Components.Concurrent.Concurrent (concurrent.threads, astNodeToComponent)
     | _ -> (React.functionComponent (fun () -> Html.none) ())
 
 [<ReactComponent>]

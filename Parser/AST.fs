@@ -1,4 +1,4 @@
-module App.Parser.AST
+module Parser.AST
 
 type loops =
     | For

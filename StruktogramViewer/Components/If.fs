@@ -1,7 +1,7 @@
-module App.Components.If
+module StruktogramViewer.Components.If
 
 open Feliz
-open App.Parser.AST
+open Parser.AST
 
 [<ReactComponent>]
 let private DecisionGraphic (condition: string) =
@@ -15,6 +15,13 @@ let private DecisionGraphic (condition: string) =
                       svg.dominantBaseline.middle
                       svg.textAnchor.middle
                       svg.text condition ]
+                Svg.rect [
+                    svg.custom("width", "100%")
+                    svg.custom("height", "100%")
+                    svg.strokeWidth 1
+                    svg.stroke "#000"
+                    svg.fill "none"
+                ]
                 Svg.line
                     [ svg.custom ("x1", "0%")
                       svg.custom ("y1", "0%")

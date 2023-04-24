@@ -1,8 +1,10 @@
 source https://api.nuget.org/v3/index.json
 
 nuget Fable.Mocha
+nuget Feliz
 nuget FSharp.Core
 github cannorin/Parsec.fs Parsec.fs
+github edisnord/Struktogram-Creator /src/Parser/AST.fs
 
 storage: none
 framework: net5.0, netstandard2.0, netstandard2.1

@@ -1,4 +1,4 @@
-module App.Parser.Parsing
+module Parser.Parsing
 
 open AST
 open Parsec

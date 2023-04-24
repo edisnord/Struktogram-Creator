@@ -1,6 +1,6 @@
-module App.Components.Concurrent
+module StruktogramViewer.Components.Concurrent
 open Feliz
-open App.Parser.AST
+open Parser.AST
 
 [<ReactComponent>]
 let private ConcurrentGraphic top =

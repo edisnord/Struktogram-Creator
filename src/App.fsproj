@@ -9,13 +9,6 @@
       <Link>paket-files/Parsec.fs</Link>
     </Compile>
     <None Include="index.html" />
-    <Compile Include="Parser\AST.fs" />
-    <Compile Include="Parser\Parsing.fs" />
-    <Compile Include="Components\If.fs" />
-    <Compile Include="Components\SingleLine.fs" />
-    <Compile Include="Components\Loop.fs" />
-    <Compile Include="Components\Concurrent.fs" />
-    <Compile Include="DisplayDiagram.fs" />
     <Compile Include="Main.fs" />
     <Content Include="style.css" />
     <Content Include="structoview.css" />
@@ -24,6 +17,10 @@
     <PackageReference Include="Feliz" Version="2.6.0" />
     <PackageReference Include="Feliz.Router" Version="4.0.0" />
     <PackageReference Include="FSharp.Core" Version="7.0.200" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Parser\Parser.fsproj" />
+    <ProjectReference Include="..\StruktogramViewer\StruktogramViewer.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>

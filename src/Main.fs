@@ -1,10 +1,10 @@
 module Main
 
 open Feliz
-open App
 open Fable.Core
 open Fable.Core.JsInterop
 open Browser.Dom
+
 
 [<Import("*", from = "ace-builds")>]
 let ace: obj = jsNative
@@ -45,7 +45,7 @@ let public parseCode () =
     | Error (a, b) -> failwith <| a.ToString() + "\n\n" + b.ToString()
 
 createButton.addEventListener ("click", (fun _ -> let width = if toggleAutoWidth.checked then "auto" else slider.value + "%"  
-                                                  root.render <| DisplayDiagram.Diagram(parseCode (), width)))
+                                                  root.render <| StruktogramViewer.DisplayDiagram.Diagram(parseCode (), width)))
 
 hideButton.addEventListener (
     "click",

@@ -1,4 +1,4 @@
-module App.Components.SingleLine
+module StruktogramViewer.Components.SingleLine
 
 open Feliz
 

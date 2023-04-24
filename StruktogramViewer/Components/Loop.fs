@@ -1,7 +1,6 @@
-module App.Components.Loop
-open App.Parser
+module StruktogramViewer.Components.Loop
 open Feliz
-open App.Parser.AST
+open Parser.AST
 
 [<ReactComponent>]
 let Loop (input : {| kind: loops;
