@@ -24,7 +24,7 @@ The app is now deployed on GitHub pages, so if you wish to use it check out [thi
    6. [X] Call
    7. [X] Sequence
    8. [ ] Comment(and multiline)
-   9. [ ] Switch-case 
+   9. [X] Switch-case 
 2. [X] Connect parser to diagram generator
 3. [ ] Implement diagram generator blocks
    1. [X] Caption block

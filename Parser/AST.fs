@@ -4,6 +4,10 @@ type loops =
     | For
     | Loop
 
+type cases = 
+    | Case
+    | Default
+
 type Sequence = Text of string
 
 and Block =
@@ -17,6 +21,7 @@ and Block =
     | Return of string
     | Exit of string
     | Sequence of Sequence
+    | Switch of Switch
 
 and Else = Block list
 
@@ -25,6 +30,11 @@ and If =
       blocks: Block list
       opt_else: Else option }
 
+and Switch =
+    { condition: Sequence
+      cases: (Sequence * Block list) list
+      opt_default: (Sequence * Block list) option
+    }
 
 and Loop =
     { kind: loops

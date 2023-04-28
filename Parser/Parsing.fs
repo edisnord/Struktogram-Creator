@@ -19,6 +19,10 @@ let private keywords: Parser<unit> =
     choice
         [ skipString "endif:"
           skipString "if:"
+          skipString "endswitch:"
+          skipString "switch:"
+          skipString "case:"
+          skipString "default:"
           skipString "else:"
           skipString "loop:"
           skipString "endloop:"
@@ -88,15 +92,9 @@ let private pIf =
 
 let private pThread =
     skipManySatisfy (isAnyOf " \t")
-    >>. (pKeyWordWithCond "thread:" |>> fun _ -> printf "Entered thread")
+    >>. (pKeyWordWithCond "thread:")
     >>. skipNewline
-    >>. sepEndBy
-        ((pBlock
-          |>> fun a ->
-              printfn $"{a}"
-              a)
-         .>> skipNewline)
-        (notFollowedBy (pKeyWord "endconcurrent:" <|> pKeyWord "thread:" <|> eof))
+    >>. sepEndBy (pBlock .>> skipNewline) (notFollowedBy (pKeyWord "endconcurrent:" <|> pKeyWord "thread:" <|> eof))
 
 
 let private pConcurrent =
@@ -155,6 +153,42 @@ let private pCaption =
     |>> function
         | Sequence.Text s -> Block.Caption s
 
+let private pCase =
+    let start = pKeyWordWithCond "case:"
+
+    let body =
+        sepEndBy
+            (pBlock .>> skipNewline)
+            (notFollowedBy (pKeyWord "case:" <|> pKeyWord "endswitch:" <|> pKeyWord "default:"))
+
+    pipe2 start body (fun x1 x2 -> (x1, x2, cases.Case))
+
+let private isDefault input : bool =
+    match input with
+    | (_, _, cases.Default) -> true
+    | (_, _, cases.Case) -> false
+
+let private removeCaseKind (x1, x2, _) = (x1, x2)
+
+let private pDefault =
+    let start = pKeyWordWithCond "default:"
+
+    let body =
+        sepEndBy (pBlock .>> skipNewline) (notFollowedBy (pKeyWord "case:" <|> pKeyWord "endswitch:"))
+
+    pipe2 start body (fun x1 x2 -> (x1, x2, cases.Default))
+
+let private pSwitch: Parser<Switch> =
+    let notClosedError = blockNotClosedError "switch"
+    let start = pKeyWordWithCond "switch:"
+    let endCond = (pKeyWordWithCond "endswitch:" |>> ignore <|> pKeyWord "endswitch:") <?> notClosedError
+    let body = sepEndBy (pCase <|> pDefault) (notFollowedBy endCond)
+
+    pipe3 start body endCond (fun x1 x2 _ ->
+        { condition = x1
+          cases = (List.filter (fun a -> not <| isDefault a) >> List.map removeCaseKind) x2
+          opt_default = Option.bind (fun a -> Some <| removeCaseKind a) (List.tryFind isDefault x2) })
+
 let private pBreak = pSingleLineInstruction "break:" Block.Break
 
 let private pExit = pSingleLineInstruction "exit:" Block.Exit
@@ -167,6 +201,7 @@ pBlockRef.Value <-
     skipManySatisfy (isAnyOf " \t")
     >>. choice
         [ pIf |>> Block.If
+          pSwitch |>> Block.Switch
           pLoop |>> Block.Loop
           pConcurrent |>> Block.Concurrent
           pCall
