@@ -10,6 +10,7 @@
     <Compile Include="Components\Concurrent.fs" />
     <Compile Include="Components\If.fs" />
     <Compile Include="Components\Loop.fs" />
+    <Compile Include="Components\Switch.fs" />
     <Compile Include="DisplayDiagram.fs" />
   </ItemGroup>
   <ItemGroup>

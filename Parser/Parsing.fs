@@ -163,10 +163,10 @@ let private pCase =
 
     pipe2 start body (fun x1 x2 -> (x1, x2, cases.Case))
 
-let private isDefault input : bool =
-    match input with
-    | (_, _, cases.Default) -> true
-    | (_, _, cases.Case) -> false
+let private isDefault (_, _, case) : bool =
+    match case with
+    | cases.Default -> true
+    | cases.Case -> false
 
 let private removeCaseKind (x1, x2, _) = (x1, x2)
 
@@ -186,8 +186,8 @@ let private pSwitch: Parser<Switch> =
 
     pipe3 start body endCond (fun x1 x2 _ ->
         { condition = x1
-          cases = (List.filter (fun a -> not <| isDefault a) >> List.map removeCaseKind) x2
-          opt_default = Option.bind (fun a -> Some <| removeCaseKind a) (List.tryFind isDefault x2) })
+          cases = (List.filter (not << isDefault) >> List.map removeCaseKind) x2
+          opt_default = Option.map removeCaseKind (List.tryFind isDefault x2) })
 
 let private pBreak = pSingleLineInstruction "break:" Block.Break
 

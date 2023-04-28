@@ -19,6 +19,13 @@ let rec astNodeToComponent =
                blocks = blocks
                opt_else = opt_else
                mapper = astNodeToComponent |}
+    | Block.Switch { condition = Text condition
+                     cases = cases
+                     opt_default = opt_default } ->
+        StruktogramViewer.Components.Switch.Switch
+            {| condition = condition
+               cases = cases
+               opt_default = opt_default |}
     | Block.Loop l ->
         StruktogramViewer.Components.Loop.Loop
             {| condition = l.opt_condition
@@ -26,7 +33,8 @@ let rec astNodeToComponent =
                kind = l.kind
                end_condition = l.opt_end_condition
                mapper = astNodeToComponent |}
-    | Block.Concurrent concurrent -> StruktogramViewer.Components.Concurrent.Concurrent (concurrent.threads, astNodeToComponent)
+    | Block.Concurrent concurrent ->
+        StruktogramViewer.Components.Concurrent.Concurrent(concurrent.threads, astNodeToComponent)
     | _ -> (React.functionComponent (fun () -> Html.none) ())
 
 [<ReactComponent>]
@@ -48,5 +56,5 @@ let Diagram (blocks: Block list, width: string) =
     Html.div
         [ prop.id "main-diagram"
           prop.classes [ "struct-diagram" ]
-          prop.style [ style.custom("width", width) ]
+          prop.style [ style.custom ("width", width) ]
           prop.children children ]
