@@ -34,13 +34,14 @@ limitations under the License.
 
     @media (prefers-color-scheme: dark) {
         :root {
-            --structoview-text: Gainsboro;
-            --structoview-border: navy;
-            --structoview-line: gray;
-            --structoview-hint: gray;
-            --structoview-comment: var(--structoview-hint);
-            --structoview-bg: black;
-            --structoview-bg-block: #303030;
+        --structoview-text: black;
+        --structoview-border: navy;
+        --structoview-line: gray;
+        --structoview-hint: gray;
+        --structoview-comment: var(--structoview-hint);
+        --structoview-bg: white;
+        --structoview-bg-block: #303030;
+
         }
 
     }
@@ -55,13 +56,14 @@ limitations under the License.
     }
 
     .structoview-dark, .structoview-dark * {
-        --structoview-text: Gainsboro;
-        --structoview-border: navy;
-        --structoview-line: gray;
+        --structoview-text: black;
+        --structoview-border: lightblue;
+        --structoview-line: black;
         --structoview-hint: gray;
         --structoview-comment: var(--structoview-hint);
-        --structoview-bg: black;
-        --structoview-bg-block: #303030;
+        --structoview-bg: white;
+        --structoview-bg-block: lightgray;
+
     }
 }
 
@@ -80,6 +82,7 @@ limitations under the License.
 }
 
 .struct-diagram > .struct-caption {
+    color: black; 
     position: relative;
     display: block;
     font-weight: bold;
